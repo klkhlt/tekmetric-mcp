@@ -156,9 +156,19 @@ Search and filter jobs, or get a specific job by ID.
 | `limit` | number | No | Max results (max: 100) | 20 |
 | `page` | number | No | Page number | 0 |
 
-### Response Format
+### Result Limits
 
-Results are paginated with `totalElements` and `totalPages` fields.
+⚠️ **Important:** Results are limited to 25 jobs maximum to keep responses manageable.
+
+When results are truncated, you'll see:
+```
+WARNING: ⚠️ SHOWING ONLY 10 OF 200 TOTAL JOBS ⚠️
+```
+
+**To see more**, use filters:
+- Filter by repair order (`repair_order_id`)
+- Filter by employee (`employee_id`)
+- Search by service name (`search`)
 
 ## Related Tools
 

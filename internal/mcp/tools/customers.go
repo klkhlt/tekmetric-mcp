@@ -61,21 +61,26 @@ func (r *Registry) handleCustomers(arguments map[string]interface{}) (*mcp.CallT
 			limit = lim
 		}
 
-		customers, err := r.client.GetCustomers(ctx, shopID, 0, 100)
+		// Use API's native search instead of client-side filtering
+		customers, err := r.client.SearchCustomers(ctx, shopID, query, 0, limit)
 		if err != nil {
 			return mcp.NewToolResultError(fmt.Sprintf("Failed to search customers: %v", err)), nil
 		}
 
-		matches := filterCustomers(customers.Content, query)
-		if len(matches) > limit {
-			matches = matches[:limit]
+		response := map[string]interface{}{
+			"query":         query,
+			"returned":      len(customers.Content),
+			"totalElements": customers.TotalElements,
+			"results":       customers.Content,
 		}
 
-		return formatJSON(map[string]interface{}{
-			"query":   query,
-			"matches": len(matches),
-			"results": matches,
-		})
+		// Warn if there are more results available
+		if customers.TotalElements > limit {
+			response["WARNING"] = fmt.Sprintf("⚠️ SHOWING %d OF %d MATCHING CUSTOMERS ⚠️", len(customers.Content), customers.TotalElements)
+			response["message"] = "Use a more specific search query or increase the 'limit' parameter."
+		}
+
+		return formatJSON(response)
 	}
 
 	// No ID or query - return error suggesting what to provide

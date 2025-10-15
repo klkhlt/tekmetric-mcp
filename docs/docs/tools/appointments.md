@@ -144,9 +144,19 @@ Search and filter appointments, or get a specific appointment by ID.
 | `limit` | number | No | Max results (max: 100) | 20 |
 | `page` | number | No | Page number | 0 |
 
-### Response Format
+### Result Limits
 
-Results are paginated with `totalElements` and `totalPages` fields.
+⚠️ **Important:** Results are limited to 25 appointments maximum to keep responses manageable.
+
+When results are truncated, you'll see:
+```
+WARNING: ⚠️ SHOWING ONLY 10 OF 100 TOTAL APPOINTMENTS ⚠️
+```
+
+**To see more**, use filters:
+- Date ranges (`start_date`, `end_date`)
+- Filter by customer (`customer_id`)
+- Filter by vehicle (`vehicle_id`)
 
 ## Related Tools
 

@@ -14,7 +14,7 @@ Ask questions about your shop data using natural language. Get instant answers a
 
 ## What You Can Do
 
-### Ask About Your Shop
+### Today's Schedule
 
 ```
 Show me today's appointments
@@ -24,14 +24,10 @@ Show me today's appointments
 What repair orders are in progress?
 ```
 
-```
-How many customers do I have?
-```
-
 ### Find Customers & Vehicles
 
 ```
-Find customers named John Smith
+Find customer John Smith
 ```
 
 ```
@@ -39,49 +35,21 @@ Search for a 2020 Honda Accord
 ```
 
 ```
-Look up vehicle with VIN 1HGBH41JXMN109186
+Look up VIN 1HGBH41JXMN109186
 ```
 
-### Track Work & Revenue
+### Check Recent Work
 
 ```
-Show me all estimates from last week
-```
-
-```
-What's our total revenue for the month?
+Show me estimates from last week
 ```
 
 ```
-Find repair orders over $1000
-```
-
-### Manage Your Schedule
-
-```
-Who's scheduled for tomorrow?
+Find repair orders for customer 456
 ```
 
 ```
-What appointments does customer 456 have?
-```
-
-```
-Show me this week's workload
-```
-
-### Analyze Your Business
-
-```
-Which customers haven't been in for 6 months?
-```
-
-```
-What's the average repair order value this quarter?
-```
-
-```
-Show me the most common services we perform
+What vehicles does customer 123 own?
 ```
 
 ## Features
@@ -157,46 +125,28 @@ Quit and reopen Claude Desktop. Look for the 🔌 icon to verify connection.
 
 ## Example Queries
 
-### Daily Operations
-
 ```
-What's on the schedule today?
+Show me today's appointments
 ```
 
 ```
-Show me repair orders that need to be completed this week
+Find customer with phone 555-1234
 ```
 
 ```
-Find the customer with phone 555-1234
-```
-
-### Business Intelligence
-
-```
-How many new customers did we get last month?
+Show me repair orders from last week
 ```
 
 ```
-What's our average repair order value?
+Search for vehicles by VIN
 ```
 
 ```
-Which services generate the most revenue?
-```
-
-### Customer Service
-
-```
-When was this customer last here?
+List all employees
 ```
 
 ```
-What work have we done on this vehicle?
-```
-
-```
-Show me all open estimates for customer John Smith
+What's in inventory?
 ```
 
 ## 📚 Documentation

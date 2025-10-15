@@ -159,7 +159,21 @@ Search and filter repair orders, or get a specific RO by ID.
 | `status` | string | No | Filter by status (comma-separated) | - |
 | `customer_id` | number | No | Filter by customer ID | - |
 | `vehicle_id` | number | No | Filter by vehicle ID | - |
-| `limit` | number | No | Max results | 20 |
+| `limit` | number | No | Max results (max 25) | 10 |
+
+### Result Limits
+
+⚠️ **Important:** Results are limited to 25 repair orders maximum to prevent overwhelming Claude's context window.
+
+If you query returns more than 25 results, you'll see a warning message like:
+```
+WARNING: ⚠️ SHOWING ONLY 10 OF 500 TOTAL REPAIR ORDERS ⚠️
+```
+
+**To see more results**, add filters to narrow your search:
+- Use date ranges (`start_date`, `end_date`)
+- Filter by status (`estimate`, `wip`, `complete`)
+- Search for specific customers or vehicles
 
 ## Related Tools
 

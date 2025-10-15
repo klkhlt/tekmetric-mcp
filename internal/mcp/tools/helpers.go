@@ -118,3 +118,34 @@ func formatCurrency(cents tekmetric.Currency) string {
 	dollars := float64(cents) / 100.0
 	return fmt.Sprintf("$%.2f", dollars)
 }
+
+// PaginatedResult wraps paginated data with metadata
+type PaginatedResult[T any] struct {
+	Data          []T    `json:"data"`
+	TotalElements int    `json:"totalElements"`
+	Returned      int    `json:"returned"`
+	Truncated     bool   `json:"truncated,omitempty"`
+	Message       string `json:"message,omitempty"`
+}
+
+// formatPaginatedResultWithWarning creates a response with prominent truncation warnings
+func formatPaginatedResultWithWarning[T any](data []T, totalElements int, returned int, maxResults int, resourceType string) (*mcp.CallToolResult, error) {
+	response := map[string]interface{}{
+		"data":          data,
+		"totalElements": totalElements,
+		"returned":      returned,
+	}
+
+	// Add prominent warning if results were truncated
+	if totalElements > maxResults {
+		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING ONLY %d OF %d TOTAL %s ⚠️", returned, totalElements, resourceType)
+		response["message"] = "Results are limited. Add more specific filters (date range, status, customer, etc.) to narrow your search."
+		response["truncated"] = true
+	} else if totalElements > returned {
+		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING %d OF %d %s ⚠️", returned, totalElements, resourceType)
+		response["message"] = "Increase the 'limit' parameter to see more results."
+		response["truncated"] = true
+	}
+
+	return formatJSON(response)
+}

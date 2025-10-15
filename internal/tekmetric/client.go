@@ -224,6 +224,17 @@ func (c *Client) GetCustomers(ctx context.Context, shopID int, page int, size in
 	return &resp, nil
 }
 
+// SearchCustomers searches customers using the API's native search
+func (c *Client) SearchCustomers(ctx context.Context, shopID int, query string, page int, size int) (*PaginatedResponse[Customer], error) {
+	query = url.QueryEscape(query)
+	path := fmt.Sprintf("/api/v1/customers?shop=%d&search=%s&page=%d&size=%d", shopID, query, page, size)
+	var resp PaginatedResponse[Customer]
+	if err := c.doRequest(ctx, "GET", path, nil, &resp); err != nil {
+		return nil, err
+	}
+	return &resp, nil
+}
+
 // GetCustomer returns a specific customer by ID
 func (c *Client) GetCustomer(ctx context.Context, id int) (*Customer, error) {
 	var customer Customer
@@ -237,6 +248,17 @@ func (c *Client) GetCustomer(ctx context.Context, id int) (*Customer, error) {
 // GetVehicles returns a paginated list of vehicles
 func (c *Client) GetVehicles(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[Vehicle], error) {
 	path := fmt.Sprintf("/api/v1/vehicles?shop=%d&page=%d&size=%d", shopID, page, size)
+	var resp PaginatedResponse[Vehicle]
+	if err := c.doRequest(ctx, "GET", path, nil, &resp); err != nil {
+		return nil, err
+	}
+	return &resp, nil
+}
+
+// SearchVehicles searches vehicles using the API's native search
+func (c *Client) SearchVehicles(ctx context.Context, shopID int, query string, page int, size int) (*PaginatedResponse[Vehicle], error) {
+	query = url.QueryEscape(query)
+	path := fmt.Sprintf("/api/v1/vehicles?shop=%d&search=%s&page=%d&size=%d", shopID, query, page, size)
 	var resp PaginatedResponse[Vehicle]
 	if err := c.doRequest(ctx, "GET", path, nil, &resp); err != nil {
 		return nil, err

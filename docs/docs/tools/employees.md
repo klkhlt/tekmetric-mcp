@@ -144,9 +144,19 @@ Search and filter employees, or get a specific employee by ID.
 | `limit` | number | No | Max results (max: 100) | 20 |
 | `page` | number | No | Page number | 0 |
 
-### Response Format
+### Result Limits
 
-Results are paginated with `totalElements` and `totalPages` fields.
+⚠️ **Important:** Results are limited to 25 employees maximum to keep responses manageable.
+
+When results are truncated, you'll see:
+```
+WARNING: ⚠️ SHOWING ONLY 10 OF 50 TOTAL EMPLOYEES ⚠️
+```
+
+**To see more**, use filters:
+- Filter by active status (`active`)
+- Filter by role (`role`)
+- Search by name (`search`)
 
 ## Related Tools
 

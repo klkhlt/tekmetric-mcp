@@ -14,7 +14,7 @@ import (
 func (r *Registry) RegisterRepairOrderTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("repair_orders",
-			mcp.WithDescription("Search and filter repair orders, or get specific RO by ID. Search by RO#, customer name, or vehicle info (make/model/VIN). Supports filtering by date range, status, customer ID, vehicle ID. Returns RO details including jobs, parts, labor, and totals."),
+			mcp.WithDescription("Search and filter repair orders, or get specific RO by ID. Search by RO#, customer name, or vehicle info (make/model/VIN). Supports filtering by date range, status, customer ID, vehicle ID. Returns RO details including jobs, parts, labor, and totals. **IMPORTANT: Default returns 10 results. For broad queries like 'all repair orders' or 'current repair orders', ALWAYS add filters (status, date range, customer) to narrow results. For analytics, use date ranges and increase limit parameter.**"),
 			mcp.WithNumber("id",
 				mcp.Description("Get specific repair order by ID"),
 			),
@@ -40,7 +40,7 @@ func (r *Registry) RegisterRepairOrderTools(s *server.MCPServer) {
 				mcp.Description("Filter by vehicle ID"),
 			),
 			mcp.WithNumber("limit",
-				mcp.Description("Maximum results (default 20, max 100)"),
+				mcp.Description("Maximum results (default 10, max 25). Keep queries focused with filters."),
 			),
 		),
 		r.handleRepairOrders,
@@ -68,19 +68,29 @@ func (r *Registry) handleRepairOrders(arguments map[string]interface{}) (*mcp.Ca
 		shopID = shop
 	}
 
-	limit := 20
+	// Default to 10 results to avoid overwhelming Claude's context
+	limit := 10
 	if lim, ok := parseFloatArg(arguments, "limit"); ok {
 		limit = lim
-		if limit > 100 {
-			limit = 100
-		}
+	}
+
+	// Cap at 25 total results to prevent context overload
+	maxResults := 25
+	if limit > maxResults {
+		limit = maxResults
+	}
+
+	// Calculate pages needed (API max is 100 per page)
+	pageSize := 100
+	if limit < pageSize {
+		pageSize = limit
 	}
 
 	// Build query params for search/filter
 	params := tekmetric.RepairOrderQueryParams{
 		Shop: shopID,
 		Page: 0,
-		Size: limit,
+		Size: pageSize,
 	}
 
 	// Use the native search parameter (searches RO#, customer name, vehicle info)
@@ -114,12 +124,50 @@ func (r *Registry) handleRepairOrders(arguments map[string]interface{}) (*mcp.Ca
 		params.VehicleID = vehicleID
 	}
 
+	// Fetch first page
 	repairOrders, err := r.client.GetRepairOrdersWithParams(ctx, params)
 	if err != nil {
 		return mcp.NewToolResultError(fmt.Sprintf("Failed to get repair orders: %v", err)), nil
 	}
 
-	return formatJSON(repairOrders)
+	allResults := repairOrders.Content
+	totalAvailable := repairOrders.TotalElements
+
+	// Fetch additional pages if needed (up to maxResults)
+	pagesNeeded := (limit + pageSize - 1) / pageSize // Ceiling division
+	for page := 1; page < pagesNeeded && len(allResults) < limit && len(allResults) < totalAvailable; page++ {
+		params.Page = page
+		nextPage, err := r.client.GetRepairOrdersWithParams(ctx, params)
+		if err != nil {
+			r.logger.Warn("failed to fetch additional page", "page", page, "error", err)
+			break
+		}
+		allResults = append(allResults, nextPage.Content...)
+		if len(allResults) >= limit {
+			allResults = allResults[:limit]
+			break
+		}
+	}
+
+	// Create response with clear warning message
+	response := map[string]interface{}{
+		"data":          allResults,
+		"totalElements": totalAvailable,
+		"returned":      len(allResults),
+	}
+
+	// Add prominent warning if results were truncated
+	if totalAvailable > maxResults {
+		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING ONLY %d OF %d TOTAL REPAIR ORDERS ⚠️", len(allResults), totalAvailable)
+		response["message"] = "Results are limited. To see more results, add filters like date range (start_date/end_date), status, or customer_id to narrow your search."
+		response["truncated"] = true
+	} else if totalAvailable > len(allResults) {
+		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING %d OF %d RESULTS ⚠️", len(allResults), totalAvailable)
+		response["message"] = "Increase the 'limit' parameter to see more results."
+		response["truncated"] = true
+	}
+
+	return formatJSON(response)
 }
 
 // formatRepairOrderSummary creates a rich formatted summary of a repair order

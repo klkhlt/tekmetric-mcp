@@ -62,10 +62,11 @@ func (r *Registry) handleEmployees(arguments map[string]interface{}) (*mcp.CallT
 	}
 
 	// Otherwise, search with filters
+	// Default to 10 results to avoid overwhelming context
 	params := tekmetric.EmployeeQueryParams{
 		Shop: r.config.Tekmetric.DefaultShopID,
 		Page: 0,
-		Size: 20,
+		Size: 10,
 	}
 
 	// Parse optional parameters
@@ -102,5 +103,11 @@ func (r *Registry) handleEmployees(arguments map[string]interface{}) (*mcp.CallT
 		return mcp.NewToolResultError(fmt.Sprintf("Failed to search employees: %v", err)), nil
 	}
 
-	return formatJSON(resp)
+	return formatPaginatedResultWithWarning(
+		resp.Content,
+		resp.TotalElements,
+		len(resp.Content),
+		25,
+		"EMPLOYEES",
+	)
 }

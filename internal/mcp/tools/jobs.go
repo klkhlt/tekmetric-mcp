@@ -65,10 +65,11 @@ func (r *Registry) handleJobs(arguments map[string]interface{}) (*mcp.CallToolRe
 	}
 
 	// Otherwise, search with filters
+	// Default to 10 results to avoid overwhelming context
 	params := tekmetric.JobQueryParams{
 		Shop: r.config.Tekmetric.DefaultShopID,
 		Page: 0,
-		Size: 20,
+		Size: 10,
 	}
 
 	// Parse optional parameters
@@ -108,5 +109,11 @@ func (r *Registry) handleJobs(arguments map[string]interface{}) (*mcp.CallToolRe
 		return mcp.NewToolResultError(fmt.Sprintf("Failed to search jobs: %v", err)), nil
 	}
 
-	return formatJSON(resp)
+	return formatPaginatedResultWithWarning(
+		resp.Content,
+		resp.TotalElements,
+		len(resp.Content),
+		25,
+		"JOBS",
+	)
 }

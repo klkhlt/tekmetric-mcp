@@ -60,21 +60,26 @@ func (r *Registry) handleVehicles(arguments map[string]interface{}) (*mcp.CallTo
 			limit = lim
 		}
 
-		vehicles, err := r.client.GetVehicles(ctx, shopID, 0, 100)
+		// Use API's native search instead of client-side filtering
+		vehicles, err := r.client.SearchVehicles(ctx, shopID, query, 0, limit)
 		if err != nil {
 			return mcp.NewToolResultError(fmt.Sprintf("Failed to search vehicles: %v", err)), nil
 		}
 
-		matches := filterVehicles(vehicles.Content, query)
-		if len(matches) > limit {
-			matches = matches[:limit]
+		response := map[string]interface{}{
+			"query":         query,
+			"returned":      len(vehicles.Content),
+			"totalElements": vehicles.TotalElements,
+			"results":       vehicles.Content,
 		}
 
-		return formatJSON(map[string]interface{}{
-			"query":   query,
-			"matches": len(matches),
-			"results": matches,
-		})
+		// Warn if there are more results available
+		if vehicles.TotalElements > limit {
+			response["WARNING"] = fmt.Sprintf("⚠️ SHOWING %d OF %d MATCHING VEHICLES ⚠️", len(vehicles.Content), vehicles.TotalElements)
+			response["message"] = "Use a more specific search query or increase the 'limit' parameter."
+		}
+
+		return formatJSON(response)
 	}
 
 	// No ID or query - return error suggesting what to provide

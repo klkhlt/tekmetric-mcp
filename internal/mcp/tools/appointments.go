@@ -78,10 +78,11 @@ func (r *Registry) handleAppointments(arguments map[string]interface{}) (*mcp.Ca
 	}
 
 	// Otherwise, search with filters
+	// Default to 10 results to avoid overwhelming context
 	params := tekmetric.AppointmentQueryParams{
 		Shop: r.config.Tekmetric.DefaultShopID,
 		Page: 0,
-		Size: 20,
+		Size: 10,
 	}
 
 	// Parse optional parameters
@@ -130,7 +131,14 @@ func (r *Registry) handleAppointments(arguments map[string]interface{}) (*mcp.Ca
 	// Enrich appointments with customer and vehicle data
 	enrichedResp := r.enrichAppointments(ctx, resp)
 
-	return formatJSON(enrichedResp)
+	// Return with warning if needed
+	return formatPaginatedResultWithWarning(
+		enrichedResp.Content,
+		enrichedResp.TotalElements,
+		len(enrichedResp.Content),
+		25,
+		"APPOINTMENTS",
+	)
 }
 
 // enrichAppointment adds customer and vehicle details to an appointment
