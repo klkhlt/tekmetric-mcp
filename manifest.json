@@ -5,7 +5,8 @@
   "display_name": "Tekmetric Shop Management",
   "description": "Access your Tekmetric shop data including customers, vehicles, repair orders, jobs, appointments, and inventory. Read-only with OAuth 2.0 authentication.",
   "author": {
-    "name": "BeetleBug",
+    "name": "Jeremy Collins",
+    "email": "jeremy.collins@beetlebug.org",
     "url": "https://github.com/beetlebugorg"
   },
   "server": {
@@ -96,12 +97,12 @@
     }
   ],
   "tools_generated": false,
-  "homepage": "https://github.com/beetlebugorg/tekmetric-mcp",
+  "homepage": "https://beetlebugorg.github.io/tekmetric-mcp",
   "repository": {
     "type": "git",
     "url": "https://github.com/beetlebugorg/tekmetric-mcp"
   },
-  "documentation": "https://github.com/beetlebugorg/tekmetric-mcp#readme",
+  "documentation": "https://beetlebugorg.github.io/tekmetric-mcp",
   "license": "MIT",
   "keywords": ["automotive", "shop-management", "repair-orders", "crm", "tekmetric"],
   "compatibility": {
