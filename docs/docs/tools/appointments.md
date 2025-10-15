@@ -4,19 +4,36 @@ sidebar_position: 6
 
 # Appointment Tools
 
-The `appointments` tool provides access to scheduled appointment information.
+The `appointments` tool provides access to scheduled appointment information with flexible search and filtering options.
 
 ## appointments
 
-Get detailed information for a specific appointment by ID.
+Search and filter appointments, or get a specific appointment by ID. Supports filtering by date range, customer, vehicle, status, and more.
 
 ### Parameters
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `id` | number | **Yes** | Appointment ID |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------|---------|
+| `id` | number | No* | Get specific appointment by ID | - |
+| `search` | string | No | Search appointments by customer name or vehicle info | - |
+| `shop` | number | No | Shop ID | Default shop |
+| `customer_id` | number | No | Filter by customer ID | - |
+| `vehicle_id` | number | No | Filter by vehicle ID | - |
+| `start_date` | string | No | Filter appointments starting from this date (YYYY-MM-DD) | - |
+| `end_date` | string | No | Filter appointments up to this date (YYYY-MM-DD) | - |
+| `updated_start` | string | No | Filter by appointments updated after this date (YYYY-MM-DD) | - |
+| `updated_end` | string | No | Filter by appointments updated before this date (YYYY-MM-DD) | - |
+| `status` | string | No | Filter by appointment status | - |
+| `sort` | string | No | Property to sort results by | - |
+| `sort_direction` | string | No | Sort direction (ASC or DESC) | - |
+| `limit` | number | No | Maximum results to return (max: 100) | 20 |
+| `page` | number | No | Page number for pagination | 0 |
+
+**Note:** If `id` is provided, it returns that specific appointment. Otherwise, it searches with the provided filters.
 
 ### How to Use
+
+#### Get a Specific Appointment
 
 ```
 Show me appointment 789
@@ -26,76 +43,103 @@ Show me appointment 789
 Get details for appointment ID 456
 ```
 
-**Note:** To find appointments by date or customer, use natural language queries with the AI assistant, which can help you search through appointment data.
+#### Search by Date Range
 
-### What You'll Get
+```
+Show me appointments for today
+```
+
+```
+Find appointments scheduled this week
+```
+
+```
+What appointments do we have between January 1 and January 15?
+```
+
+#### Search by Customer or Vehicle
+
+```
+Find appointments for customer ID 456
+```
+
+```
+Show me appointments for vehicle 789
+```
+
+### Response Format
 
 Appointment information includes:
-- Customer name
-- Date and time
-- Vehicle information
-- Service requested
-- Duration
-- Status
-- Notes
-- Service advisor
+- **Appointment ID** - Unique identifier
+- **Customer Name** - Who's coming in
+- **Date & Time** - When they're scheduled
+- **Vehicle** - What they're bringing in
+- **Service Requested** - What work they need
+- **Duration** - How long it's scheduled for
+- **Status** - Confirmed, pending, completed, cancelled
+- **Notes** - Any special instructions
+- **Service Advisor** - Who's handling it
+- **Shop ID** - Which location
 
-## What You Can Ask
+### Pagination
 
-### Today's Appointments
+When searching appointments, results are paginated:
+- Use `limit` to control how many results per page (max 100)
+- Use `page` to navigate through pages (0-indexed)
+- Response includes `totalElements` and `totalPages`
+
+## Common Use Cases
+
+### Today's Schedule
 
 ```
-Who's scheduled for today?
-```
-
-```
-Show me today's appointments at shop 123
+Show me today's appointments
 ```
 
 ```
 What appointments do we have this morning?
 ```
 
-### This Week
-
 ```
-Show me this week's appointments
+Who's scheduled for today at shop 123?
 ```
 
-```
-What's scheduled for tomorrow?
-```
+### Date Range Queries
 
 ```
-Who's coming in on Friday?
-```
-
-### Find Specific Appointments
-
-```
-Show me appointment 789
+Show me appointments for this week
 ```
 
 ```
-Find Sarah Johnson's appointment
+Find appointments between Jan 1 and Jan 31
 ```
 
 ```
-What time is customer 456 scheduled?
+What's scheduled for next Monday?
 ```
 
-### Search by Date
+### Customer-Specific Appointments
 
 ```
-Show me appointments for January 15th
-```
-
-```
-What's scheduled next Monday?
+Find all appointments for customer 456
 ```
 
 ```
-List appointments for next week
+Show me Sarah Johnson's appointments
+```
+
+```
+What time is customer 123 scheduled?
+```
+
+### Vehicle Appointments
+
+```
+Show me appointments for vehicle 789
+```
+
+```
+Find all appointments for this VIN
 ```
 
 ## What Information You'll Get

@@ -4,19 +4,31 @@ sidebar_position: 7
 
 # Employee Tools
 
-The `employees` tool provides access to employee and technician information.
+The `employees` tool provides access to employee and technician information with flexible search and filtering options.
 
 ## employees
 
-Get detailed information for a specific employee or technician by ID.
+Search and filter employees/technicians, or get a specific employee by ID. Supports filtering by active status, role, and more.
 
 ### Parameters
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `id` | number | **Yes** | Employee ID |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------|---------|
+| `id` | number | No* | Get specific employee by ID | - |
+| `search` | string | No | Search employees by name or email | - |
+| `shop` | number | No | Shop ID | Default shop |
+| `active` | boolean | No | Filter by active status (true = active only, false = inactive only) | - |
+| `role` | string | No | Filter by employee role (e.g., technician, service advisor, manager) | - |
+| `sort` | string | No | Property to sort results by | - |
+| `sort_direction` | string | No | Sort direction (ASC or DESC) | - |
+| `limit` | number | No | Maximum results to return (max: 100) | 20 |
+| `page` | number | No | Page number for pagination | 0 |
+
+**Note:** If `id` is provided, it returns that specific employee. Otherwise, it searches with the provided filters.
 
 ### How to Use
+
+#### Get a Specific Employee
 
 ```
 Show me employee 456
@@ -30,22 +42,71 @@ Get details for employee ID 789
 Look up technician 123
 ```
 
-**Note:** To find employees by name or role, use natural language queries with the AI assistant.
+#### Search by Name or Email
 
-### What You'll Get
+```
+Find employees named Mike
+```
+
+```
+Search for employees with email containing @shop.com
+```
+
+```
+Look up employee Sarah Johnson
+```
+
+#### Filter by Status
+
+```
+Show me all active employees
+```
+
+```
+List active technicians at shop 123
+```
+
+```
+Find inactive employees
+```
+
+#### Filter by Role
+
+```
+Show me all technicians
+```
+
+```
+List service advisors
+```
+
+```
+Find employees with role manager
+```
+
+### Response Format
 
 Employee information includes:
-- Name
-- Employee ID
-- Role (technician, service advisor, manager, etc.)
-- Email
-- Phone
-- Status (active/inactive)
-- Shop location
+- **Employee ID** - Unique identifier
+- **Name** - Full name (first and last)
+- **Role** - Position (technician, service advisor, manager, etc.)
+- **Email** - Contact email address
+- **Phone** - Phone number
+- **Status** - Active or inactive
+- **Shop ID** - Which location they work at
+- **Hire Date** - When they started
+- **Skills/Certifications** - Any special qualifications
 
-## What You Can Ask
+### Pagination
 
-### List Employees
+When searching employees, results are paginated:
+- Use `limit` to control how many results per page (max 100)
+- Use `page` to navigate through pages (0-indexed)
+- Response includes `totalElements` and `totalPages`
+
+## Common Use Cases
+
+### List All Employees
 
 ```
 Show me all employees at shop 123
@@ -71,6 +132,34 @@ Find employee Mike Johnson
 
 ```
 Look up technician Sarah
+```
+
+### Filter by Status
+
+```
+Show me active employees only
+```
+
+```
+List all active technicians
+```
+
+```
+Find inactive employees
+```
+
+### Filter by Role
+
+```
+List all technicians
+```
+
+```
+Show me service advisors
+```
+
+```
+Find employees with manager role
 ```
 
 ## What Information You'll Get

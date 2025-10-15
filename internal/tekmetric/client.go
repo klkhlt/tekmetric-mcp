@@ -461,6 +461,45 @@ func (c *Client) GetJob(ctx context.Context, id int) (*Job, error) {
 	return &job, nil
 }
 
+// GetJobsWithParams returns jobs with advanced filtering
+func (c *Client) GetJobsWithParams(ctx context.Context, params JobQueryParams) (*PaginatedResponse[Job], error) {
+	query := url.Values{}
+	if params.Shop > 0 {
+		query.Add("shop", fmt.Sprintf("%d", params.Shop))
+	}
+	query.Add("page", fmt.Sprintf("%d", params.Page))
+	if params.Size > 0 {
+		query.Add("size", fmt.Sprintf("%d", params.Size))
+	} else {
+		query.Add("size", "100")
+	}
+	if params.RepairOrderID > 0 {
+		query.Add("repairOrderId", fmt.Sprintf("%d", params.RepairOrderID))
+	}
+	if params.EmployeeID > 0 {
+		query.Add("employeeId", fmt.Sprintf("%d", params.EmployeeID))
+	}
+	if params.Status != "" {
+		query.Add("status", params.Status)
+	}
+	if params.Search != "" {
+		query.Add("search", params.Search)
+	}
+	if params.Sort != "" {
+		query.Add("sort", params.Sort)
+	}
+	if params.SortDirection != "" {
+		query.Add("sortDirection", params.SortDirection)
+	}
+
+	path := "/api/v1/jobs?" + query.Encode()
+	var resp PaginatedResponse[Job]
+	if err := c.doRequest(ctx, "GET", path, nil, &resp); err != nil {
+		return nil, err
+	}
+	return &resp, nil
+}
+
 // GetAppointments returns a paginated list of appointments
 func (c *Client) GetAppointments(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[Appointment], error) {
 	path := fmt.Sprintf("/api/v1/appointments?shop=%d&page=%d&size=%d", shopID, page, size)
@@ -481,6 +520,51 @@ func (c *Client) GetAppointment(ctx context.Context, id int) (*Appointment, erro
 	return &appointment, nil
 }
 
+// GetAppointmentsWithParams returns appointments with advanced filtering
+func (c *Client) GetAppointmentsWithParams(ctx context.Context, params AppointmentQueryParams) (*PaginatedResponse[Appointment], error) {
+	query := url.Values{}
+	if params.Shop > 0 {
+		query.Add("shop", fmt.Sprintf("%d", params.Shop))
+	}
+	query.Add("page", fmt.Sprintf("%d", params.Page))
+	if params.Size > 0 {
+		query.Add("size", fmt.Sprintf("%d", params.Size))
+	} else {
+		query.Add("size", "100")
+	}
+	if params.StartDate != "" {
+		query.Add("start", params.StartDate)
+	}
+	if params.EndDate != "" {
+		query.Add("end", params.EndDate)
+	}
+	if params.CustomerID > 0 {
+		query.Add("customerId", fmt.Sprintf("%d", params.CustomerID))
+	}
+	if params.VehicleID > 0 {
+		query.Add("vehicleId", fmt.Sprintf("%d", params.VehicleID))
+	}
+	if params.Status != "" {
+		query.Add("status", params.Status)
+	}
+	if params.Search != "" {
+		query.Add("search", params.Search)
+	}
+	if params.Sort != "" {
+		query.Add("sort", params.Sort)
+	}
+	if params.SortDirection != "" {
+		query.Add("sortDirection", params.SortDirection)
+	}
+
+	path := "/api/v1/appointments?" + query.Encode()
+	var resp PaginatedResponse[Appointment]
+	if err := c.doRequest(ctx, "GET", path, nil, &resp); err != nil {
+		return nil, err
+	}
+	return &resp, nil
+}
+
 // GetEmployees returns a paginated list of employees
 func (c *Client) GetEmployees(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[Employee], error) {
 	path := fmt.Sprintf("/api/v1/employees?shop=%d&page=%d&size=%d", shopID, page, size)
@@ -499,6 +583,42 @@ func (c *Client) GetEmployee(ctx context.Context, id int) (*Employee, error) {
 		return nil, err
 	}
 	return &employee, nil
+}
+
+// GetEmployeesWithParams returns employees with advanced filtering
+func (c *Client) GetEmployeesWithParams(ctx context.Context, params EmployeeQueryParams) (*PaginatedResponse[Employee], error) {
+	query := url.Values{}
+	if params.Shop > 0 {
+		query.Add("shop", fmt.Sprintf("%d", params.Shop))
+	}
+	query.Add("page", fmt.Sprintf("%d", params.Page))
+	if params.Size > 0 {
+		query.Add("size", fmt.Sprintf("%d", params.Size))
+	} else {
+		query.Add("size", "100")
+	}
+	if params.Search != "" {
+		query.Add("search", params.Search)
+	}
+	if params.Active != nil {
+		query.Add("active", fmt.Sprintf("%t", *params.Active))
+	}
+	if params.Role != "" {
+		query.Add("role", params.Role)
+	}
+	if params.Sort != "" {
+		query.Add("sort", params.Sort)
+	}
+	if params.SortDirection != "" {
+		query.Add("sortDirection", params.SortDirection)
+	}
+
+	path := "/api/v1/employees?" + query.Encode()
+	var resp PaginatedResponse[Employee]
+	if err := c.doRequest(ctx, "GET", path, nil, &resp); err != nil {
+		return nil, err
+	}
+	return &resp, nil
 }
 
 // GetInventory returns a paginated list of inventory parts

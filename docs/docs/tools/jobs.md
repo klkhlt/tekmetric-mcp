@@ -4,17 +4,28 @@ sidebar_position: 5
 
 # Job Tools
 
-The `jobs` tool provides access to individual job (service) details on repair orders.
+The `jobs` tool provides access to individual job (service) details on repair orders with flexible search and filtering options.
 
 ## jobs
 
-Get detailed information for a specific job by ID.
+Search and filter jobs, or get a specific job by ID. Supports filtering by repair order, employee, status, and more.
 
 ### Parameters
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `id` | number | **Yes** | Job ID |
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------|---------|
+| `id` | number | No* | Get specific job by ID | - |
+| `search` | string | No | Search jobs by name or description | - |
+| `shop` | number | No | Shop ID | Default shop |
+| `repair_order_id` | number | No | Filter by repair order ID | - |
+| `employee_id` | number | No | Filter by assigned employee/technician ID | - |
+| `status` | string | No | Filter by job status | - |
+| `sort` | string | No | Property to sort results by | - |
+| `sort_direction` | string | No | Sort direction (ASC or DESC) | - |
+| `limit` | number | No | Maximum results to return (max: 100) | 20 |
+| `page` | number | No | Page number for pagination | 0 |
+
+**Note:** If `id` is provided, it returns that specific job. Otherwise, it searches with the provided filters.
 
 ### What Are Jobs?
 
@@ -28,6 +39,8 @@ One repair order can have multiple jobs.
 
 ### How to Use
 
+#### Get a Specific Job
+
 ```
 Show me job 456
 ```
@@ -36,41 +49,104 @@ Show me job 456
 Get details for job ID 789
 ```
 
-**Note:** Jobs are typically discovered through repair orders. Use the `repair_orders` tool to find jobs associated with a specific RO.
+#### Search by Repair Order
 
-### What You'll Get
+```
+Find all jobs on repair order 12345
+```
+
+```
+Show me jobs for RO 789
+```
+
+#### Search by Employee/Technician
+
+```
+Find jobs assigned to employee 456
+```
+
+```
+Show me Mike's current jobs
+```
+
+```
+What jobs is technician 123 working on?
+```
+
+#### Search by Status or Type
+
+```
+Find all oil change jobs
+```
+
+```
+Show me jobs in progress
+```
+
+```
+List completed brake jobs
+```
+
+### Response Format
 
 Job information includes:
-- Job ID
-- Service name/description
-- Repair order ID
-- Vehicle information
-- Assigned technician
-- Status
-- Labor time and cost
-- Parts used
-- Technician notes
+- **Job ID** - Unique identifier
+- **Service Name/Description** - What service is being performed
+- **Repair Order ID** - Which RO it belongs to
+- **Vehicle** - What car it's for
+- **Assigned Technician** - Who's working on it
+- **Status** - Started, in progress, completed, etc.
+- **Labor Time** - Estimated and actual hours
+- **Labor Cost** - Cost for the labor
+- **Parts Used** - Parts included in this job
+- **Technician Notes** - Any notes from the tech
+- **Created/Updated Dates** - When the job was created and last updated
 
-## What You Can Ask
+### Pagination
 
-### Find Specific Jobs
+When searching jobs, results are paginated:
+- Use `limit` to control how many results per page (max 100)
+- Use `page` to navigate through pages (0-indexed)
+- Response includes `totalElements` and `totalPages`
+
+## Common Use Cases
+
+### Find Jobs by Repair Order
 
 ```
-Show me job 456
+Show me all jobs on repair order 12345
 ```
 
 ```
-Find jobs on repair order 12345
+Find jobs for RO 789
 ```
 
-### Browse Jobs
+### Track Technician Workload
 
 ```
-List jobs from shop 123
+What jobs is Mike working on?
+```
+
+```
+Show me jobs assigned to technician 456
+```
+
+```
+Find all jobs for employee ID 123
+```
+
+### Browse and Filter Jobs
+
+```
+List all jobs from shop 123
 ```
 
 ```
 Show me today's jobs
+```
+
+```
+Find jobs in progress
 ```
 
 ## What Information You'll Get
