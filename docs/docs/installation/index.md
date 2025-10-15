@@ -19,12 +19,10 @@ These are special credentials that let your AI assistant access your shop data.
 
 **How to get credentials:**
 
-1. **Fill out the API Application form**: Contact your Tekmetric account manager or support team to request API access
+1. **Request API access**: Visit [api.tekmetric.com](https://api.tekmetric.com) for information on requesting API credentials
 2. **Wait for approval**: Allow 2-3 weeks for Tekmetric to review your application
 3. **Receive credentials**: Tekmetric will provide you with a **Client ID** and **Client Secret**
 4. **Save them securely**: You'll need these to configure the MCP server
-
-❓ **Need help?** Contact Tekmetric support at support@tekmetric.com or call 832.787.0900
 
 ⚠️ **Note:** API access approval is at Tekmetric's discretion. If you're building a third-party integration, approval is not guaranteed.
 
