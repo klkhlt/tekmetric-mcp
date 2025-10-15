@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/beetlebugorg/tekmetric-mcp/internal/tekmetric"
 	"github.com/mark3labs/mcp-go/mcp"
 )
 
@@ -112,8 +113,8 @@ func formatRichResult(summary string, data interface{}) (*mcp.CallToolResult, er
 	return mcp.NewToolResultText(fullText), nil
 }
 
-// formatCurrency converts cents to dollar string
-func formatCurrency(cents int) string {
+// formatCurrency converts Currency to dollar string for display
+func formatCurrency(cents tekmetric.Currency) string {
 	dollars := float64(cents) / 100.0
 	return fmt.Sprintf("$%.2f", dollars)
 }

@@ -1,6 +1,28 @@
 package tekmetric
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
+
+// Currency represents a monetary value in cents that outputs as dollars
+type Currency int
+
+// MarshalJSON formats Currency as dollars (dividing cents by 100)
+func (c Currency) MarshalJSON() ([]byte, error) {
+	dollars := float64(c) / 100.0
+	return json.Marshal(dollars)
+}
+
+// UnmarshalJSON parses Currency from cents
+func (c *Currency) UnmarshalJSON(data []byte) error {
+	var cents int
+	if err := json.Unmarshal(data, &cents); err != nil {
+		return err
+	}
+	*c = Currency(cents)
+	return nil
+}
 
 // TokenResponse represents the OAuth token response
 type TokenResponse struct {
@@ -132,14 +154,14 @@ type RepairOrder struct {
 	Keytag                 *string                 `json:"keytag"`
 	CompletedDate          *time.Time              `json:"completedDate"`
 	PostedDate             *time.Time              `json:"postedDate"`
-	LaborSales             int                     `json:"laborSales"`
-	PartsSales             int                     `json:"partsSales"`
-	SubletSales            int                     `json:"subletSales"`
-	DiscountTotal          int                     `json:"discountTotal"`
-	FeeTotal               int                     `json:"feeTotal"`
-	Taxes                  int                     `json:"taxes"`
-	AmountPaid             int                     `json:"amountPaid"`
-	TotalSales             int                     `json:"totalSales"`
+	LaborSales             Currency                `json:"laborSales"`
+	PartsSales             Currency                `json:"partsSales"`
+	SubletSales            Currency                `json:"subletSales"`
+	DiscountTotal          Currency                `json:"discountTotal"`
+	FeeTotal               Currency                `json:"feeTotal"`
+	Taxes                  Currency                `json:"taxes"`
+	AmountPaid             Currency                `json:"amountPaid"`
+	TotalSales             Currency                `json:"totalSales"`
 	Jobs                   []Job                   `json:"jobs,omitempty"`
 	Sublets                []Sublet                `json:"sublets,omitempty"`
 	Fees                   []Fee                   `json:"fees,omitempty"`
@@ -165,8 +187,8 @@ type Part struct {
 	Name             string    `json:"name,omitempty"`
 	PartNumber       string    `json:"partNumber,omitempty"`
 	Description      string    `json:"description,omitempty"`
-	Cost             int       `json:"cost"`
-	Retail           int       `json:"retail"`
+	Cost             Currency  `json:"cost"`
+	Retail           Currency  `json:"retail"`
 	Model            *string   `json:"model,omitempty"`
 	Width            *string   `json:"width,omitempty"`
 	Ratio            *float64  `json:"ratio,omitempty"`
@@ -180,25 +202,25 @@ type Part struct {
 
 // Labor represents labor on a job
 type Labor struct {
-	ID       int     `json:"id"`
-	Name     string  `json:"name"`
-	Rate     int     `json:"rate"`
-	Hours    float64 `json:"hours"`
-	Complete bool    `json:"complete"`
+	ID       int      `json:"id"`
+	Name     string   `json:"name"`
+	Rate     Currency `json:"rate"`
+	Hours    float64  `json:"hours"`
+	Complete bool     `json:"complete"`
 }
 
 // Fee represents a fee
 type Fee struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Total int    `json:"total"`
+	ID    int      `json:"id"`
+	Name  string   `json:"name"`
+	Total Currency `json:"total"`
 }
 
 // Discount represents a discount
 type Discount struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Total int    `json:"total"`
+	ID    int      `json:"id"`
+	Name  string   `json:"name"`
+	Total Currency `json:"total"`
 }
 
 // Job represents a job on a repair order
@@ -214,11 +236,11 @@ type Job struct {
 	TechnicianID    *int       `json:"technicianId"`
 	Note            string     `json:"note,omitempty"`
 	JobCategoryName string     `json:"jobCategoryName,omitempty"`
-	PartsTotal      int        `json:"partsTotal"`
-	LaborTotal      int        `json:"laborTotal"`
-	DiscountTotal   int        `json:"discountTotal"`
-	FeeTotal        int        `json:"feeTotal"`
-	Subtotal        int        `json:"subtotal"`
+	PartsTotal      Currency   `json:"partsTotal"`
+	LaborTotal      Currency   `json:"laborTotal"`
+	DiscountTotal   Currency   `json:"discountTotal"`
+	FeeTotal        Currency   `json:"feeTotal"`
+	Subtotal        Currency   `json:"subtotal"`
 	Archived        bool       `json:"archived"`
 	CreatedDate     time.Time  `json:"createdDate"`
 	UpdatedDate     time.Time  `json:"updatedDate"`
@@ -243,11 +265,11 @@ type Vendor struct {
 
 // SubletItem represents an item in a sublet
 type SubletItem struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
-	Cost     int    `json:"cost"`
-	Price    int    `json:"price"`
-	Complete bool   `json:"complete"`
+	ID       int      `json:"id"`
+	Name     string   `json:"name"`
+	Cost     Currency `json:"cost"`
+	Price    Currency `json:"price"`
+	Complete bool     `json:"complete"`
 }
 
 // Sublet represents subcontracted work
@@ -260,8 +282,8 @@ type Sublet struct {
 	Selected       bool         `json:"selected"`
 	Note           *string      `json:"note"`
 	Items          []SubletItem `json:"items,omitempty"`
-	Price          int          `json:"price"`
-	Cost           int          `json:"cost"`
+	Price          Currency     `json:"price"`
+	Cost           Currency     `json:"cost"`
 }
 
 // CustomerConcern represents a customer's concern
@@ -318,8 +340,8 @@ type InventoryPart struct {
 	PartNumber  string     `json:"partNumber"`
 	Description string     `json:"description"`
 	Brand       string     `json:"brand,omitempty"`
-	Cost        int        `json:"cost"`
-	Retail      int        `json:"retail"`
+	Cost        Currency   `json:"cost"`
+	Retail      Currency   `json:"retail"`
 	Quantity    float64    `json:"quantity"`
 	Location    string     `json:"location,omitempty"`
 	CreatedDate time.Time  `json:"createdDate"`
