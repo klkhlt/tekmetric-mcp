@@ -1,85 +1,25 @@
 ---
-sidebar_position: 3
+sidebar_position: 8
 ---
 
 # Vehicle Tools
 
-The `vehicles` tool provides access to vehicle records with flexible search options.
-
-## vehicles
-
-Search for vehicles by VIN, license plate, make/model, or get a specific vehicle by ID.
-
-### Parameters
-
-| Parameter | Type | Required | Description | Default |
-|-----------|------|----------|-------------|---------|
-| `id` | number | No* | Get specific vehicle by ID | - |
-| `query` | string | No* | Search by VIN, license plate, or make/model | - |
-| `shop` | number | No | Shop ID | Default shop |
-| `limit` | number | No | Maximum results to return | 10 |
-
-**Note:** You must provide either `id` or `query` parameter.
-
-### How to Use
-
-#### Get a Specific Vehicle
-
-```
-Show me vehicle ID 789
-```
-
-```
-Get details for vehicle 456
-```
-
-#### Search for Vehicles
-
-```
-Find vehicle with VIN 1HGBH41JXMN109186
-```
-
-```
-Look up license plate ABC123
-```
-
-```
-Find all Toyota Camrys
-```
-
-```
-Show me 2020 Honda Accords
-```
-
-```
-Search for Ford F-150 trucks
-```
-
-### What You'll Get
-
-Vehicle information includes:
-- Make, model, year
-- VIN (Vehicle Identification Number)
-- License plate
-- Color
-- Owner information
-- Mileage
-- Service history
+Access and search vehicle records by VIN, license plate, or make/model.
 
 ## What You Can Ask
 
-### Find a Specific Vehicle
+### Find by VIN or License Plate
 
 ```
 Find vehicle with VIN 1HGBH41JXMN109186
 ```
 
 ```
-Show me vehicle ID 789
+Look up license plate ABC123
 ```
 
 ```
-Look up license plate ABC123
+Search for VIN ending in 1234
 ```
 
 ### Search by Make/Model/Year
@@ -100,6 +40,16 @@ Search for Ford F-150 trucks
 Find all vehicles from 2018 or newer
 ```
 
+### Get Specific Vehicle
+
+```
+Show me vehicle ID 789
+```
+
+```
+Get details for vehicle 456
+```
+
 ### Browse Vehicles
 
 ```
@@ -110,25 +60,11 @@ Show me the first 50 vehicles at shop 123
 List all vehicles
 ```
 
-## What Information You'll Get
+### Customer Service
 
-When you look up a vehicle, you'll see:
-
-- **Make, Model, Year** - What kind of vehicle it is
-- **VIN** - Vehicle Identification Number
-- **License Plate** - Tag number
-- **Color** - Vehicle color
-- **Owner** - Customer who owns it
-- **Mileage** - Last recorded odometer reading
-- **Service History** - Past repair orders for this vehicle
-
-## Real-World Uses
-
-### Customer Calls In
-
+**Customer calls in:**
 ```
-Customer says they drive a silver 2019 Toyota Camry,
-what's their VIN?
+Customer says they drive a silver 2019 Toyota Camry, what's their VIN?
 ```
 
 ```
@@ -163,17 +99,48 @@ What's the most common vehicle make in our system?
 Show me all trucks
 ```
 
+### Examples by Role
+
+**Front Desk:**
+```
+Find red Honda vehicles
+```
+
+```
+Customer calling about a 2020 Camry, find it
+```
+
+**Service Advisor:**
+```
+Show me John Smith's vehicles
+```
+
+```
+What was the last service date for vehicle 456?
+```
+
+**Shop Manager:**
+```
+What vehicles have appointments today?
+```
+
+```
+Show me vehicles with open repair orders
+```
+
+## What You'll Get
+
+Each vehicle includes:
+- Vehicle ID
+- Make, model, year
+- VIN (Vehicle Identification Number)
+- License plate
+- Color
+- Owner information
+- Last recorded mileage
+- Service history
+
 ## Search Tips
-
-**Be flexible with your questions:**
-
-✅ Good:
-- "Find Toyota Camry"
-- "Show me vehicles from 2020"
-- "Search for VIN ending in 1234"
-
-❌ Too specific (might not find anything):
-- "2020 Toyota Camry LE 4-Door Sedan Silver"
 
 **VIN Searches:**
 - Full VIN works best
@@ -184,60 +151,29 @@ Show me all trucks
 - Enter as shown on the plate
 - Spaces and dashes usually don't matter
 
-## Examples by Situation
+**Make/Model:**
+- Be flexible: "Find Toyota Camry" works better than "2020 Toyota Camry LE 4-Door Sedan Silver"
+- Partial matches supported
 
-### Front Desk Scenario
+## Technical Reference
 
-Customer calls: *"I'm calling about my red Honda"*
+### Tool: `vehicles`
 
-```
-Find red Honda vehicles
-```
+Search for vehicles by VIN, license plate, make/model, or get a specific vehicle by ID.
 
-Then narrow it down by year or owner name.
+### Parameters
 
-### Service Advisor Scenario
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------|---------|
+| `id` | number | No* | Get specific vehicle by ID | - |
+| `query` | string | No* | Search by VIN, plate, or make/model | - |
+| `shop` | number | No | Shop ID | Default shop |
+| `limit` | number | No | Max results | 10 |
 
-Need to schedule an oil change for a regular customer:
+**Note:** Provide either `id` or `query`.
 
-```
-Show me John Smith's vehicles
-```
+## Related Tools
 
-```
-What was the last service date for vehicle 456?
-```
-
-### Shop Manager Scenario
-
-Planning for the day:
-
-```
-What vehicles have appointments today?
-```
-
-```
-Show me vehicles with open repair orders
-```
-
-## Connecting to Other Information
-
-Once you find a vehicle, you can:
-
-```
-Show me repair history for vehicle 789
-```
-
-```
-What's the owner of vehicle 456?
-```
-
-```
-Find all repair orders for this VIN
-```
-
-## Need More Help?
-
-- Look up [customer information](./customers.md)
-- Check [repair orders](./repair-orders.md)
-- See [usage examples](../examples/index.md)
+- [Customers](./customers.md) - Vehicle owners
+- [Repair Orders](./repair-orders.md) - Service history
+- [Appointments](./appointments.md) - Scheduled service

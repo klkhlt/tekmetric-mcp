@@ -4,28 +4,29 @@ sidebar_position: 2
 
 # Customer Tools
 
-The `customers` tool provides access to customer records with flexible search and retrieval options.
+Access and search customer records and contact information.
 
-## customers
+## What You Can Ask
 
-Search for customers by name, email, phone, or get a specific customer by ID.
+### Find Customers
 
-### Parameters
+```
+Find customers named John Smith
+```
 
-| Parameter | Type | Required | Description | Default |
-|-----------|------|----------|-------------|---------|
-| `id` | number | No* | Get specific customer by ID | - |
-| `query` | string | No* | Search customers by name, email, or phone | - |
-| `shop` | number | No | Shop ID | Default shop |
-| `limit` | number | No | Maximum results to return | 10 |
+```
+Search for customers with last name Johnson
+```
 
-**Note:** You must provide either `id` or `query` parameter.
+```
+Find customer with email john@example.com
+```
 
-### How to Use
+```
+Search for customers with phone number 555-1234
+```
 
-#### Get a Specific Customer
-
-When you know the customer ID:
+### Get Specific Customer
 
 ```
 Show me customer 12345
@@ -35,80 +36,18 @@ Show me customer 12345
 Get details for customer ID 456
 ```
 
-#### Search for Customers
-
-Search by name, email, or phone:
-
-```
-Find customers named John Smith
-```
-
-```
-Search for customers with email containing "@gmail.com"
-```
-
-```
-Find customer with phone number 555-1234
-```
+### Browse Customers
 
 ```
 Show me customers at shop 123
 ```
 
-### What You'll Get
-
-Customer information includes:
-- Personal information (first name, last name)
-- Contact details (phone, email)
-- Address
-- Account settings
-- Customer type
-- Created/updated dates
-- Associated vehicles
-
-## Response Format
-
-### Customer Object
-
-```json
-{
-  "id": 12345,
-  "shopId": 123,
-  "firstName": "John",
-  "lastName": "Smith",
-  "email": "john.smith@example.com",
-  "phone": [
-    {
-      "type": "mobile",
-      "number": "(555) 123-4567",
-      "primary": true
-    }
-  ],
-  "address": {
-    "street": "123 Main St",
-    "city": "Springfield",
-    "state": "IL",
-    "zip": "62701",
-    "fullAddress": "123 Main St, Springfield, IL 62701"
-  },
-  "eligibleForAccountsReceivable": true,
-  "creditLimit": 100000,
-  "okForMarketing": true,
-  "createdDate": "2024-01-15T10:30:00Z",
-  "updatedDate": "2024-03-20T14:45:00Z"
-}
 ```
-
-## Common Use Cases
-
-### Finding Customers
-
-```
-Find all customers with last name Johnson
+List all customers
 ```
 
 ```
-Search for customers in Springfield
+Show me the first 50 customers
 ```
 
 ### Customer Analysis
@@ -121,8 +60,13 @@ Show me customers created in the last 30 days
 Which customers have email addresses?
 ```
 
-### Customer Service
+```
+Find customers in Springfield
+```
 
+### Examples by Role
+
+**Service Advisor:**
 ```
 Find customer John Smith's contact information
 ```
@@ -131,16 +75,63 @@ Find customer John Smith's contact information
 What's the phone number for customer 789?
 ```
 
-## Notes
+**Front Desk:**
+```
+Look up customer by phone 555-1234
+```
 
-- Email and phone fields may be empty if not provided
-- Credit limit is in cents (100000 = $1000.00)
-- Multiple phone numbers possible per customer
+```
+Find customer with email sarah@gmail.com
+```
+
+**Manager:**
+```
+How many new customers this month?
+```
+
+```
+Show me customers without email addresses
+```
+
+## What You'll Get
+
+Each customer includes:
+- Customer ID
+- First and last name
+- Email address
+- Phone number(s)
+- Street address
+- Account settings and credit limit
+- Customer type
+- Created and updated dates
+- Associated vehicles
+
+## Technical Reference
+
+### Tool: `customers`
+
+Search for customers by name, email, phone, or get a specific customer by ID.
+
+### Parameters
+
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------|---------|
+| `id` | number | No* | Get specific customer by ID | - |
+| `query` | string | No* | Search by name, email, or phone | - |
+| `shop` | number | No | Shop ID | Default shop |
+| `limit` | number | No | Max results | 10 |
+
+**Note:** Provide either `id` or `query`.
+
+### Notes
+
 - Search is case-insensitive
 - Partial matches are supported
+- Credit limit is in cents (100000 = $1000.00)
+- Multiple phone numbers possible per customer
 
-## Next Steps
+## Related Tools
 
-- [Vehicle Tools](./vehicles.md) - See customer vehicles
-- [Repair Order Tools](./repair-orders.md) - See customer repair history
-- [Examples](../examples/index.md) - More usage examples
+- [Vehicles](./vehicles.md) - Customer vehicles
+- [Repair Orders](./repair-orders.md) - Service history
+- [Appointments](./appointments.md) - Scheduled visits

@@ -1,110 +1,12 @@
 ---
-sidebar_position: 7
+sidebar_position: 3
 ---
 
 # Employee Tools
 
-The `employees` tool provides access to employee and technician information with flexible search and filtering options.
+Access and search employee and technician information.
 
-## employees
-
-Search and filter employees/technicians, or get a specific employee by ID. Supports filtering by active status, role, and more.
-
-### Parameters
-
-| Parameter | Type | Required | Description | Default |
-|-----------|------|----------|-------------|---------|
-| `id` | number | No* | Get specific employee by ID | - |
-| `search` | string | No | Search employees by name or email | - |
-| `shop` | number | No | Shop ID | Default shop |
-| `active` | boolean | No | Filter by active status (true = active only, false = inactive only) | - |
-| `role` | string | No | Filter by employee role (e.g., technician, service advisor, manager) | - |
-| `sort` | string | No | Property to sort results by | - |
-| `sort_direction` | string | No | Sort direction (ASC or DESC) | - |
-| `limit` | number | No | Maximum results to return (max: 100) | 20 |
-| `page` | number | No | Page number for pagination | 0 |
-
-**Note:** If `id` is provided, it returns that specific employee. Otherwise, it searches with the provided filters.
-
-### How to Use
-
-#### Get a Specific Employee
-
-```
-Show me employee 456
-```
-
-```
-Get details for employee ID 789
-```
-
-```
-Look up technician 123
-```
-
-#### Search by Name or Email
-
-```
-Find employees named Mike
-```
-
-```
-Search for employees with email containing @shop.com
-```
-
-```
-Look up employee Sarah Johnson
-```
-
-#### Filter by Status
-
-```
-Show me all active employees
-```
-
-```
-List active technicians at shop 123
-```
-
-```
-Find inactive employees
-```
-
-#### Filter by Role
-
-```
-Show me all technicians
-```
-
-```
-List service advisors
-```
-
-```
-Find employees with role manager
-```
-
-### Response Format
-
-Employee information includes:
-- **Employee ID** - Unique identifier
-- **Name** - Full name (first and last)
-- **Role** - Position (technician, service advisor, manager, etc.)
-- **Email** - Contact email address
-- **Phone** - Phone number
-- **Status** - Active or inactive
-- **Shop ID** - Which location they work at
-- **Hire Date** - When they started
-- **Skills/Certifications** - Any special qualifications
-
-### Pagination
-
-When searching employees, results are paginated:
-- Use `limit` to control how many results per page (max 100)
-- Use `page` to navigate through pages (0-indexed)
-- Response includes `totalElements` and `totalPages`
-
-## Common Use Cases
+## What You Can Ask
 
 ### List All Employees
 
@@ -132,6 +34,20 @@ Find employee Mike Johnson
 
 ```
 Look up technician Sarah
+```
+
+### Search by Name or Email
+
+```
+Find employees named Mike
+```
+
+```
+Search for employees with email @shop.com
+```
+
+```
+Look up Sarah Johnson
 ```
 
 ### Filter by Status
@@ -162,109 +78,78 @@ Show me service advisors
 Find employees with manager role
 ```
 
-## What Information You'll Get
-
-When you look up an employee, you'll see:
-
-- **Name** - Employee's full name
-- **Employee ID** - Their unique ID number
-- **Role** - Technician, service advisor, manager, etc.
-- **Email** - Contact email
-- **Phone** - Phone number
-- **Status** - Active or inactive
-- **Shop** - Which location they work at
-
-## Real-World Uses
-
-### Find Contact Info
-
 ```
-What's Mike's phone number?
+Who are our shop foremen?
+```
+
+### Examples by Role
+
+**Shop Manager:**
+```
+Show me all active employees
 ```
 
 ```
-Show me Sarah's email
+How many technicians do we have?
 ```
 
-### Check Staffing
-
+**Service Advisor:**
 ```
-Who's working today?
-```
-
-```
-List all active technicians
+Find the technician assigned to this repair order
 ```
 
 ```
-How many employees do we have?
+Who's available to work on brakes?
 ```
 
-### Assign Work
-
+**HR/Admin:**
 ```
-Show me available technicians
-```
-
-```
-Who can work on this repair order?
-```
-
-## Examples
-
-### Manager Scenarios
-
-```
-List all employees at shop 123
+List all employees with contact info
 ```
 
 ```
-Show me technician contact information
+Show me inactive employees
 ```
 
-```
-Who's scheduled to work tomorrow?
-```
+## What You'll Get
 
-### Service Advisor Scenarios
+Each employee includes:
+- Employee ID
+- Full name
+- Role (technician, service advisor, manager, etc.)
+- Email address
+- Phone number
+- Active/inactive status
+- Shop location
+- Hire date
+- Skills and certifications
 
-```
-Find the technician working on RO 789
-```
+## Technical Reference
 
-```
-Show me Mike's current jobs
-```
+### Tool: `employees`
 
-```
-Who should I assign this brake job to?
-```
+Search and filter employees, or get a specific employee by ID.
 
-## Tips
+### Parameters
 
-- Employee list shows who's at your shop
-- Use for assigning work to technicians
-- Look up contact info when needed
-- Check who's available for scheduling
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------|---------|
+| `id` | number | No | Get specific employee by ID | - |
+| `search` | string | No | Search by name or email | - |
+| `shop` | number | No | Shop ID | Default shop |
+| `active` | boolean | No | Filter by active status | - |
+| `role` | string | No | Filter by role | - |
+| `sort` | string | No | Sort property | - |
+| `sort_direction` | string | No | ASC or DESC | - |
+| `limit` | number | No | Max results (max: 100) | 20 |
+| `page` | number | No | Page number | 0 |
 
-## Connecting to Other Information
+### Response Format
 
-From employee information:
+Results are paginated with `totalElements` and `totalPages` fields.
 
-```
-What jobs is technician 456 working on?
-```
+## Related Tools
 
-```
-Show me Mike's completed work this week
-```
-
-```
-Which repair orders is Sarah assigned to?
-```
-
-## Need More Help?
-
-- Check [jobs and work assignments](./jobs.md)
-- See [repair orders](./repair-orders.md)
-- View [usage examples](../examples/index.md)
+- [Jobs](./jobs.md) - Work assigned to technicians
+- [Repair Orders](./repair-orders.md) - Service history
+- [Shops](./shops.md) - Shop information
