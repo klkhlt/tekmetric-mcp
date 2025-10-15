@@ -183,7 +183,7 @@ extension: build-all ## Build Desktop Extension (.mcpb file)
 	@cp $(DIST_DIR)/tekmetric-mcp-linux-* $(DIST_DIR)/extension/ 2>/dev/null || true
 	@cp $(DIST_DIR)/tekmetric-mcp-windows-* $(DIST_DIR)/extension/ 2>/dev/null || true
 	@if [ -f icon.png ]; then cp icon.png $(DIST_DIR)/extension/; fi
-	@cd $(DIST_DIR)/extension && zip -r ../tekmetric-mcp.mcpb .
+	@cd $(DIST_DIR)/extension && zip -r -X ../tekmetric-mcp.mcpb .
 	@rm -rf $(DIST_DIR)/extension
 	@echo "Desktop Extension created: $(DIST_DIR)/tekmetric-mcp.mcpb"
 	@ls -lh $(DIST_DIR)/tekmetric-mcp.mcpb
