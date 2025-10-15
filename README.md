@@ -2,6 +2,10 @@
 
 Ask questions about your shop data using natural language. Get instant answers about customers, vehicles, repair orders, appointments, and more - directly in Claude.
 
+<p align="center">
+  <img src="./docs/static/img/example.png" alt="Example: Ask about your biggest repair" width="600">
+</p>
+
 > **⚠️ Independent Community Project**
 >
 > This is an **independent, community-built tool** that integrates with Tekmetric's API. It is **not an official Tekmetric product** and is not affiliated with, endorsed by, or supported by Tekmetric, Inc.

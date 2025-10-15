@@ -11,6 +11,11 @@ slug: /
 
 Tekmetric MCP Server is a **Model Context Protocol (MCP)** server that provides tools for accessing the Tekmetric shop management API. Built with Go, it offers fast, reliable access to shop data, customers, vehicles, repair orders, and more.
 
+<div style={{textAlign: 'center', margin: '2rem 0'}}>
+  <img src="/tekmetric-mcp/img/example.png" alt="Example: Natural language query about repair orders" style={{maxWidth: '800px', width: '100%', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'}} />
+  <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5rem'}}>Ask questions in plain English and get instant answers from your Tekmetric data</p>
+</div>
+
 :::info Independent Tool & AI-First Project
 This is an **independent, community-built tool** that works with Tekmetric's API. It is **not an official Tekmetric product** and is not affiliated with, endorsed by, or supported by Tekmetric.
 
