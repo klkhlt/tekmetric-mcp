@@ -73,7 +73,8 @@ func (r *Registry) handleAppointments(arguments map[string]interface{}) (*mcp.Ca
 		if err != nil {
 			return mcp.NewToolResultError(fmt.Sprintf("Failed to get appointment: %v", err)), nil
 		}
-		return formatJSON(appointment)
+		enriched := r.enrichAppointment(ctx, appointment)
+		return formatJSON(enriched)
 	}
 
 	// Otherwise, search with filters
@@ -126,5 +127,53 @@ func (r *Registry) handleAppointments(arguments map[string]interface{}) (*mcp.Ca
 		return mcp.NewToolResultError(fmt.Sprintf("Failed to search appointments: %v", err)), nil
 	}
 
-	return formatJSON(resp)
+	// Enrich appointments with customer and vehicle data
+	enrichedResp := r.enrichAppointments(ctx, resp)
+
+	return formatJSON(enrichedResp)
+}
+
+// enrichAppointment adds customer and vehicle details to an appointment
+func (r *Registry) enrichAppointment(ctx context.Context, appt *tekmetric.Appointment) *tekmetric.EnrichedAppointment {
+	enriched := &tekmetric.EnrichedAppointment{
+		Appointment: *appt,
+	}
+
+	// Fetch customer details
+	if customer, err := r.client.GetCustomer(ctx, appt.CustomerID); err == nil {
+		enriched.Customer = customer
+	} else {
+		r.logger.Warn("failed to fetch customer", "customerId", appt.CustomerID, "error", err)
+	}
+
+	// Fetch vehicle details
+	if vehicle, err := r.client.GetVehicle(ctx, appt.VehicleID); err == nil {
+		enriched.Vehicle = vehicle
+	} else {
+		r.logger.Warn("failed to fetch vehicle", "vehicleId", appt.VehicleID, "error", err)
+	}
+
+	return enriched
+}
+
+// enrichAppointments adds customer and vehicle details to a paginated response of appointments
+func (r *Registry) enrichAppointments(ctx context.Context, resp *tekmetric.PaginatedResponse[tekmetric.Appointment]) *tekmetric.PaginatedResponse[tekmetric.EnrichedAppointment] {
+	enrichedContent := make([]tekmetric.EnrichedAppointment, len(resp.Content))
+
+	for i, appt := range resp.Content {
+		enriched := r.enrichAppointment(ctx, &appt)
+		enrichedContent[i] = *enriched
+	}
+
+	return &tekmetric.PaginatedResponse[tekmetric.EnrichedAppointment]{
+		Content:          enrichedContent,
+		TotalPages:       resp.TotalPages,
+		TotalElements:    resp.TotalElements,
+		Last:             resp.Last,
+		First:            resp.First,
+		Size:             resp.Size,
+		Number:           resp.Number,
+		NumberOfElements: resp.NumberOfElements,
+		Empty:            resp.Empty,
+	}
 }

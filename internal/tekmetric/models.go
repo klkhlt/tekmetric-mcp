@@ -289,6 +289,13 @@ type Appointment struct {
 	DeletedDate      *time.Time `json:"deletedDate"`
 }
 
+// EnrichedAppointment represents an appointment with customer and vehicle details
+type EnrichedAppointment struct {
+	Appointment
+	Customer *Customer `json:"customer,omitempty"`
+	Vehicle  *Vehicle  `json:"vehicle,omitempty"`
+}
+
 // Employee represents an employee
 type Employee struct {
 	ID          int        `json:"id"`

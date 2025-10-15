@@ -332,14 +332,16 @@ type JobQueryParams struct {
 
 // EmployeeQueryParams holds query parameters for employee searches
 type EmployeeQueryParams struct {
-	Shop          int    `url:"shop,omitempty"`
-	Page          int    `url:"page,omitempty"`
-	Size          int    `url:"size,omitempty"`
-	Search        string `url:"search,omitempty"`        // Search by name, email
-	Active        *bool  `url:"active,omitempty"`        // Filter by active status
-	Role          string `url:"role,omitempty"`          // Filter by role
-	Sort          string `url:"sort,omitempty"`          // firstName, lastName, email
-	SortDirection string `url:"sortDirection,omitempty"` // ASC, DESC
+	Shop             int    `url:"shop,omitempty"`
+	Page             int    `url:"page,omitempty"`
+	Size             int    `url:"size,omitempty"`
+	Search           string `url:"search,omitempty"`           // Search by name, email
+	UpdatedDateStart string `url:"updatedDateStart,omitempty"` // Date format: YYYY-MM-DD
+	UpdatedDateEnd   string `url:"updatedDateEnd,omitempty"`   // Date format: YYYY-MM-DD
+	Active           *bool  `url:"active,omitempty"`           // Filter by active status
+	Role             string `url:"role,omitempty"`             // Filter by role
+	Sort             string `url:"sort,omitempty"`             // firstName, lastName, email
+	SortDirection    string `url:"sortDirection,omitempty"`    // ASC, DESC
 }
 
 // InventoryQueryParams holds query parameters for inventory searches
@@ -588,6 +590,7 @@ func (c *Client) GetEmployee(ctx context.Context, id int) (*Employee, error) {
 // GetEmployeesWithParams returns employees with advanced filtering
 func (c *Client) GetEmployeesWithParams(ctx context.Context, params EmployeeQueryParams) (*PaginatedResponse[Employee], error) {
 	query := url.Values{}
+	// Shop parameter is optional but recommended
 	if params.Shop > 0 {
 		query.Add("shop", fmt.Sprintf("%d", params.Shop))
 	}
@@ -599,6 +602,12 @@ func (c *Client) GetEmployeesWithParams(ctx context.Context, params EmployeeQuer
 	}
 	if params.Search != "" {
 		query.Add("search", params.Search)
+	}
+	if params.UpdatedDateStart != "" {
+		query.Add("updatedDateStart", params.UpdatedDateStart)
+	}
+	if params.UpdatedDateEnd != "" {
+		query.Add("updatedDateEnd", params.UpdatedDateEnd)
 	}
 	if params.Active != nil {
 		query.Add("active", fmt.Sprintf("%t", *params.Active))
