@@ -1,0 +1,99 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+
+builds:
+  - id: tekmetric-mcp
+    main: ./main.go
+    binary: tekmetric-mcp
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+
+archives:
+  - id: default
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: >-
+      {{ .ProjectName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}
+    files:
+      - README.md
+      - LICENSE
+
+
+checksum:
+  name_template: '{{ .ProjectName }}-{{ .Version }}-checksums.txt'
+  algorithm: sha256
+  extra_files:
+    - glob: 'dist/*.mcpb'
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+  groups:
+    - title: 'Features'
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 0
+    - title: 'Bug Fixes'
+      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      order: 1
+    - title: 'Documentation'
+      regexp: '^.*?docs(\([[:word:]]+\))??!?:.+$'
+      order: 2
+    - title: 'Other Changes'
+      order: 999
+
+release:
+  github:
+    owner: beetlebugorg
+    name: tekmetric-mcp
+  draft: false
+  prerelease: auto
+  mode: append
+  header: |
+    ## Tekmetric MCP Server {{ .Tag }}
+
+    {{ .Version }} - {{ .Date }}
+  footer: |
+    ## Installation
+
+    ### Claude Desktop (Recommended)
+    Download `tekmetric-mcp-{{ .Version }}.mcpb` and open with Claude Desktop.
+
+    ### Manual Installation
+    Download the appropriate zip file for your platform:
+    - **macOS (Apple Silicon)**: `tekmetric-mcp-{{ .Version }}-darwin-arm64.zip`
+    - **macOS (Intel)**: `tekmetric-mcp-{{ .Version }}-darwin-amd64.zip`
+    - **Linux (x64)**: `tekmetric-mcp-{{ .Version }}-linux-amd64.zip`
+    - **Linux (ARM64)**: `tekmetric-mcp-{{ .Version }}-linux-arm64.zip`
+    - **Windows (x64)**: `tekmetric-mcp-{{ .Version }}-windows-amd64.zip`
+
+    Extract the zip file and add the binary to your PATH or Claude Desktop configuration.
+
+    See the [Installation Guide](https://beetlebugorg.github.io/tekmetric-mcp/installation) for detailed instructions.
+
+    **Full Changelog**: https://github.com/beetlebugorg/tekmetric-mcp/compare/{{ .PreviousTag }}...{{ .Tag }}

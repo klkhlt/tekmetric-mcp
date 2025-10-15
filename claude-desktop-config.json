@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "tekmetric": {
+      "command": "/absolute/path/to/tekmetric-mcp",
+      "args": ["serve"],
+      "env": {
+        "TEKMETRIC_CLIENT_ID": "your_client_id",
+        "TEKMETRIC_CLIENT_SECRET": "your_client_secret",
+        "TEKMETRIC_BASE_URL": "https://api.tekmetric.com",
+        "TEKMETRIC_DEFAULT_SHOP_ID": "your_shop_id"
+      }
+    }
+  }
+}

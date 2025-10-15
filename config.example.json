@@ -1,0 +1,16 @@
+{
+  "tekmetric": {
+    "base_url": "https://sandbox.tekmetric.com",
+    "client_id": "your_client_id_here",
+    "client_secret": "your_client_secret_here",
+    "default_shop_id": 1,
+    "timeout_seconds": 30,
+    "max_retries": 3,
+    "max_backoff_sec": 60
+  },
+  "server": {
+    "name": "tekmetric-mcp",
+    "version": "0.1.0",
+    "debug": false
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "manifest_version": "0.1",
+  "name": "tekmetric",
+  "version": "1.0.0",
+  "display_name": "Tekmetric Shop Management",
+  "description": "Access your Tekmetric shop data including customers, vehicles, repair orders, jobs, appointments, and inventory. Read-only with OAuth 2.0 authentication.",
+  "author": {
+    "name": "BeetleBug",
+    "url": "https://github.com/beetlebugorg"
+  },
+  "server": {
+    "type": "binary",
+    "entry_point": "tekmetric-mcp",
+    "mcp_config": {
+      "command": "${__dirname}/tekmetric-mcp-darwin-universal",
+      "args": ["serve"],
+      "env": {
+        "TEKMETRIC_CLIENT_ID": "${user_config.client_id}",
+        "TEKMETRIC_CLIENT_SECRET": "${user_config.client_secret}",
+        "TEKMETRIC_BASE_URL": "${user_config.base_url}",
+        "TEKMETRIC_DEFAULT_SHOP_ID": "${user_config.default_shop_id}"
+      },
+      "platform_overrides": {
+        "win32": {
+          "command": "${__dirname}/tekmetric-mcp-windows-amd64.exe"
+        },
+        "linux": {
+          "command": "${__dirname}/tekmetric-mcp-linux-amd64"
+        }
+      }
+    }
+  },
+  "user_config": {
+    "client_id": {
+      "type": "string",
+      "title": "Client ID",
+      "description": "Your Tekmetric API Client ID from Settings → API Access",
+      "required": true,
+      "sensitive": false
+    },
+    "client_secret": {
+      "type": "string",
+      "title": "Client Secret",
+      "description": "Your Tekmetric API Client Secret",
+      "required": true,
+      "sensitive": true
+    },
+    "base_url": {
+      "type": "string",
+      "title": "API Base URL",
+      "description": "Tekmetric API endpoint (production or sandbox)",
+      "required": false,
+      "default": "https://api.tekmetric.com",
+      "sensitive": false
+    },
+    "default_shop_id": {
+      "type": "string",
+      "title": "Default Shop ID",
+      "description": "Your default shop ID for queries",
+      "required": true,
+      "sensitive": false
+    }
+  },
+  "tools": [
+    {
+      "name": "shops",
+      "description": "Search shops by name or list all accessible Tekmetric shops"
+    },
+    {
+      "name": "customers",
+      "description": "Search customers by name/email/phone or get by ID"
+    },
+    {
+      "name": "vehicles",
+      "description": "Search vehicles by VIN/make/model or get by ID"
+    },
+    {
+      "name": "repair_orders",
+      "description": "Search repair orders by RO#/customer/vehicle with rich formatted summaries"
+    },
+    {
+      "name": "jobs",
+      "description": "Get job details by ID"
+    },
+    {
+      "name": "appointments",
+      "description": "Get appointment details by ID"
+    },
+    {
+      "name": "employees",
+      "description": "Get employee/technician details by ID"
+    },
+    {
+      "name": "inventory",
+      "description": "Search inventory parts by name/number or list all"
+    }
+  ],
+  "tools_generated": false,
+  "homepage": "https://github.com/beetlebugorg/tekmetric-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beetlebugorg/tekmetric-mcp"
+  },
+  "documentation": "https://github.com/beetlebugorg/tekmetric-mcp#readme",
+  "license": "MIT",
+  "keywords": ["automotive", "shop-management", "repair-orders", "crm", "tekmetric"],
+  "compatibility": {
+    "platforms": ["darwin", "linux", "win32"]
+  }
+}
