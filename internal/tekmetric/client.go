@@ -98,6 +98,7 @@ func (c *Client) Authenticate(ctx context.Context) error {
 
 	req.Header.Set("Authorization", "Basic "+auth)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+	req.Header.Set("User-Agent", "tekmetric-mcp (https://github.com/beetlebugorg/tekmetric-mcp)")
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -153,6 +154,7 @@ func (c *Client) doRequest(ctx context.Context, method, path string, body interf
 		}
 
 		req.Header.Set("Authorization", "Bearer "+c.accessToken)
+		req.Header.Set("User-Agent", "tekmetric-mcp (https://github.com/beetlebugorg/tekmetric-mcp)")
 		if body != nil {
 			req.Header.Set("Content-Type", "application/json")
 		}
