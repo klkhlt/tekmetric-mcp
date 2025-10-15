@@ -56,9 +56,72 @@ func parseStringArg(arguments map[string]interface{}, key string) (string, bool)
 	return "", false
 }
 
+// removeNullsAndEmpty recursively removes null, empty strings, empty slices, and zero values from maps
+func removeNullsAndEmpty(data interface{}) interface{} {
+	switch v := data.(type) {
+	case map[string]interface{}:
+		result := make(map[string]interface{})
+		for key, val := range v {
+			cleaned := removeNullsAndEmpty(val)
+			// Skip null, empty strings, empty slices, and false booleans
+			if cleaned == nil {
+				continue
+			}
+			if str, ok := cleaned.(string); ok && str == "" {
+				continue
+			}
+			if slice, ok := cleaned.([]interface{}); ok && len(slice) == 0 {
+				continue
+			}
+			// Keep the value
+			result[key] = cleaned
+		}
+		// Return nil if map is empty after cleaning
+		if len(result) == 0 {
+			return nil
+		}
+		return result
+	case []interface{}:
+		result := make([]interface{}, 0, len(v))
+		for _, item := range v {
+			cleaned := removeNullsAndEmpty(item)
+			if cleaned != nil {
+				result = append(result, cleaned)
+			}
+		}
+		return result
+	default:
+		return v
+	}
+}
+
+// cleanJSON converts data to JSON and back to remove omitempty fields, then filters nulls
+func cleanJSON(data interface{}) (interface{}, error) {
+	// First marshal to JSON to apply omitempty tags
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal back to interface{} to get a generic structure
+	var generic interface{}
+	if err := json.Unmarshal(jsonData, &generic); err != nil {
+		return nil, err
+	}
+
+	// Remove nulls and empty values
+	return removeNullsAndEmpty(generic), nil
+}
+
 // formatJSON marshals data to indented JSON and returns a tool result
 func formatJSON(data interface{}) (*mcp.CallToolResult, error) {
-	jsonData, err := json.MarshalIndent(data, "", "  ")
+	// Clean the data first
+	cleaned, err := cleanJSON(data)
+	if err != nil {
+		return mcp.NewToolResultError(fmt.Sprintf("Failed to clean data: %v", err)), nil
+	}
+
+	jsonData, err := json.MarshalIndent(cleaned, "", "  ")
 	if err != nil {
 		return mcp.NewToolResultError(fmt.Sprintf("Failed to format data: %v", err)), nil
 	}
@@ -103,7 +166,13 @@ func parseDateArg(arguments map[string]interface{}, key string) (string, bool) {
 // formatRichResult creates a tool result with both formatted text and JSON data
 // This provides a better user experience in Claude Desktop
 func formatRichResult(summary string, data interface{}) (*mcp.CallToolResult, error) {
-	jsonData, err := json.MarshalIndent(data, "", "  ")
+	// Clean the data first
+	cleaned, err := cleanJSON(data)
+	if err != nil {
+		return mcp.NewToolResultError(fmt.Sprintf("Failed to clean data: %v", err)), nil
+	}
+
+	jsonData, err := json.MarshalIndent(cleaned, "", "  ")
 	if err != nil {
 		return mcp.NewToolResultError(fmt.Sprintf("Failed to format data: %v", err)), nil
 	}
@@ -128,6 +197,15 @@ type PaginatedResult[T any] struct {
 	Message       string `json:"message,omitempty"`
 }
 
+// hasFinancialData checks if data contains financial fields
+func hasFinancialData(resourceType string) bool {
+	financialTypes := map[string]bool{
+		"REPAIR ORDERS": true,
+		"JOBS":          true,
+	}
+	return financialTypes[resourceType]
+}
+
 // formatPaginatedResultWithWarning creates a response with prominent truncation warnings
 func formatPaginatedResultWithWarning[T any](data []T, totalElements int, returned int, maxResults int, resourceType string) (*mcp.CallToolResult, error) {
 	response := map[string]interface{}{
@@ -136,16 +214,20 @@ func formatPaginatedResultWithWarning[T any](data []T, totalElements int, return
 		"returned":      returned,
 	}
 
+	// ALWAYS add financial warning for financial data types
+	if hasFinancialData(resourceType) {
+		response["FINANCIAL_WARNING"] = "🚨 NOT FOR FINANCIAL REPORTING - Use Tekmetric's built-in reports 🚨"
+	}
+
 	// Add prominent warning if results were truncated
 	if totalElements > maxResults {
-		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING ONLY %d OF %d TOTAL %s ⚠️", returned, totalElements, resourceType)
-		response["message"] = "Results are limited. Add more specific filters (date range, status, customer, etc.) to narrow your search."
+		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING ONLY %d OF %d %s ⚠️", returned, totalElements, resourceType)
 		response["truncated"] = true
 	} else if totalElements > returned {
 		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING %d OF %d %s ⚠️", returned, totalElements, resourceType)
-		response["message"] = "Increase the 'limit' parameter to see more results."
 		response["truncated"] = true
 	}
 
+	// formatJSON will handle the cleaning
 	return formatJSON(response)
 }

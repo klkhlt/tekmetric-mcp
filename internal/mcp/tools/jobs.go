@@ -13,7 +13,7 @@ import (
 func (r *Registry) RegisterJobTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("jobs",
-			mcp.WithDescription("Search and filter jobs (work items/services on repair orders), or get a specific job by ID. Supports filtering by repair order, employee, status, and more."),
+			mcp.WithDescription("Search and filter jobs (work items/services on repair orders), or get a specific job by ID. Supports filtering by repair order, employee, status, and more. ⚠️ **FINANCIAL DATA WARNING: DO NOT use this tool for financial reporting, revenue calculations, profit analysis, or accounting. If the user asks for sums, averages, totals, or any financial calculations, you MUST refuse and tell them to use Tekmetric's built-in reports instead. This tool is ONLY for tactical lookups of specific jobs.**"),
 			mcp.WithNumber("id",
 				mcp.Description("Get specific job by ID"),
 			),
@@ -61,7 +61,13 @@ func (r *Registry) handleJobs(arguments map[string]interface{}) (*mcp.CallToolRe
 		if err != nil {
 			return mcp.NewToolResultError(fmt.Sprintf("Failed to get job: %v", err)), nil
 		}
-		return formatJSON(job)
+
+		// Add financial warning to single job responses
+		response := map[string]interface{}{
+			"FINANCIAL_WARNING": "🚨 NOT FOR FINANCIAL REPORTING - Use Tekmetric's built-in reports 🚨",
+			"data":              job,
+		}
+		return formatJSON(response)
 	}
 
 	// Otherwise, search with filters

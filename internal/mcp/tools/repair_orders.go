@@ -14,7 +14,7 @@ import (
 func (r *Registry) RegisterRepairOrderTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("repair_orders",
-			mcp.WithDescription("Search and filter repair orders, or get specific RO by ID. Search by RO#, customer name, or vehicle info (make/model/VIN). Supports filtering by date range, status, customer ID, vehicle ID. Returns RO details including jobs, parts, labor, and totals. **IMPORTANT: Default returns 10 results. For broad queries like 'all repair orders' or 'current repair orders', ALWAYS add filters (status, date range, customer) to narrow results. For analytics, use date ranges and increase limit parameter.**"),
+			mcp.WithDescription("Search and filter repair orders, or get specific RO by ID. Search by RO#, customer name, or vehicle info (make/model/VIN). Supports filtering by date range, status, customer ID, vehicle ID. Returns RO details including jobs, parts, labor, and totals. **IMPORTANT: Default returns 10 results. For broad queries like 'all repair orders' or 'current repair orders', ALWAYS add filters (status, date range, customer) to narrow results.** ⚠️ **FINANCIAL DATA WARNING: DO NOT use this tool for financial reporting, revenue calculations, profit analysis, or accounting. If the user asks for sums, averages, totals, or any financial calculations, you MUST refuse and tell them to use Tekmetric's built-in reports instead. This tool is ONLY for tactical lookups of specific repair orders.**"),
 			mcp.WithNumber("id",
 				mcp.Description("Get specific repair order by ID"),
 			),
@@ -59,7 +59,13 @@ func (r *Registry) handleRepairOrders(arguments map[string]interface{}) (*mcp.Ca
 		if err != nil {
 			return mcp.NewToolResultError(fmt.Sprintf("Failed to get repair order: %v", err)), nil
 		}
-		return formatJSON(repairOrder)
+
+		// Add financial warning to single repair order responses
+		response := map[string]interface{}{
+			"FINANCIAL_WARNING": "🚨 NOT FOR FINANCIAL REPORTING - Use Tekmetric's built-in reports 🚨",
+			"data":              repairOrder,
+		}
+		return formatJSON(response)
 	}
 
 	// Get shop ID
@@ -149,21 +155,20 @@ func (r *Registry) handleRepairOrders(arguments map[string]interface{}) (*mcp.Ca
 		}
 	}
 
-	// Create response with clear warning message
+	// Create response with financial warning
 	response := map[string]interface{}{
-		"data":          allResults,
-		"totalElements": totalAvailable,
-		"returned":      len(allResults),
+		"FINANCIAL_WARNING": "🚨 NOT FOR FINANCIAL REPORTING - Use Tekmetric's built-in reports 🚨",
+		"data":              allResults,
+		"totalElements":     totalAvailable,
+		"returned":          len(allResults),
 	}
 
 	// Add prominent warning if results were truncated
 	if totalAvailable > maxResults {
-		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING ONLY %d OF %d TOTAL REPAIR ORDERS ⚠️", len(allResults), totalAvailable)
-		response["message"] = "Results are limited. To see more results, add filters like date range (start_date/end_date), status, or customer_id to narrow your search."
+		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING ONLY %d OF %d REPAIR ORDERS ⚠️", len(allResults), totalAvailable)
 		response["truncated"] = true
 	} else if totalAvailable > len(allResults) {
-		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING %d OF %d RESULTS ⚠️", len(allResults), totalAvailable)
-		response["message"] = "Increase the 'limit' parameter to see more results."
+		response["WARNING"] = fmt.Sprintf("⚠️ SHOWING %d OF %d REPAIR ORDERS ⚠️", len(allResults), totalAvailable)
 		response["truncated"] = true
 	}
 

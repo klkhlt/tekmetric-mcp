@@ -51,28 +51,48 @@ This MCP server acts as a bridge between Claude Desktop and the Tekmetric API, a
 - ✅ **Cross-Platform** - Linux, macOS, Windows support
 - ✅ **Read-Only** - Safe exploration without accidental modifications
 
-## Use Cases
+## What This Is For
 
-### Shop Management
-```
-Show me all repair orders in progress
-Find customers who haven't visited in 6 months
-What vehicles are scheduled for service this week?
-```
+**Best for tactical, day-to-day queries:**
 
-### Data Analysis
+### Customer Lookups
 ```
-Analyze customer retention for shop 123
-What are the most common repair types this quarter?
-Show me average repair order values by month
+Find customer John Smith's phone number
+Look up email for customer ID 456
+Search for customers named Mike
 ```
 
-### Customer Service
+### Vehicle Information
 ```
-Find customer John Smith's repair history
-What vehicles does customer ID 456 own?
-Show me all open estimates for next week
+Look up VIN 1HGBH41JXMN109186
+Find all 2020 Honda Accords
+What vehicles does customer 123 own?
 ```
+
+### Daily Operations
+```
+Show me today's appointments
+What repair orders are in progress?
+Who's assigned to job 789?
+```
+
+### Specific Record Searches
+```
+Find repair order #1234
+Show estimates from last week
+Get details for appointment 567
+```
+
+**NOT designed for:**
+- Financial reporting or accounting (use Tekmetric's built-in reports)
+- Revenue calculations or profit analysis
+- Large-scale data exports or bulk operations
+- Business intelligence dashboards
+- Comprehensive trend analysis across large datasets
+
+:::info Result Limits
+Results are limited to **25 records per query** to keep responses fast and manageable. For comprehensive reports, financial data, or bulk exports, use Tekmetric's native reporting and export tools.
+:::
 
 ## Architecture
 

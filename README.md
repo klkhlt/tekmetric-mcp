@@ -60,6 +60,23 @@ What vehicles does customer 123 own?
 - **Rich Context** - See customer names, vehicle details, and formatted prices automatically
 - **Fast & Lightweight** - Single binary, no dependencies, instant responses
 
+## What This Is For
+
+**Best for tactical, day-to-day queries:**
+- Look up customer contact info
+- Find vehicle details by VIN or license plate
+- Check appointment schedules
+- Search for specific repair orders
+- Get technician assignments
+
+**NOT designed for:**
+- Financial reporting or accounting (use Tekmetric's built-in reports)
+- Revenue calculations or profit analysis
+- Large-scale data exports
+- Business intelligence dashboards
+
+> **Note:** Results are limited to 25 records per query to keep responses fast. For comprehensive financial data or bulk exports, use Tekmetric's native reporting tools.
+
 ## 🚀 Quick Start
 
 ### 1. Get API Credentials
