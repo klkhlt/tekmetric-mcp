@@ -89,8 +89,8 @@ Show me the most common services we perform
 - **Natural Language** - Just ask questions, no commands to memorize
 - **Real-Time Data** - Direct access to your Tekmetric data
 - **Smart Search** - Find anything by name, VIN, date, status, and more
-- **Automatic Enrichment** - Appointments show customer names and vehicle details, not just IDs
-- **Proper Formatting** - Prices display as $255.55, not 25555
+- **Rich Context** - See customer names, vehicle details, and formatted prices automatically
+- **Fast & Lightweight** - Single binary, no dependencies, instant responses
 
 ## 🚀 Quick Start
 
