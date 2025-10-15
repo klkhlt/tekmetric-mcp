@@ -38,7 +38,7 @@ jobs:
       - name: Build Claude Desktop Extension (.mcpb)
         run: |
           VERSION=${GITHUB_REF_NAME#v}
-          make extension VERSION=${VERSION}
+          make package-extension VERSION=${VERSION}
           mv dist/tekmetric-mcp.mcpb dist/tekmetric-mcp-${VERSION}.mcpb
 
       - name: Upload .mcpb to Release

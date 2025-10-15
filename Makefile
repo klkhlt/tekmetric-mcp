@@ -170,18 +170,42 @@ release: build-all ## Create a release (requires VERSION env var)
 
 # Desktop Extension targets
 extension: build-all ## Build Desktop Extension (.mcpb file)
-	@echo "Building Desktop Extension..."
+	@$(MAKE) package-extension
+
+package-extension: ## Package existing binaries into .mcpb (for CI after GoReleaser)
+	@echo "Packaging Desktop Extension..."
 	@mkdir -p $(DIST_DIR)/extension
 	@cp manifest.json $(DIST_DIR)/extension/
-	@# Copy universal binary if available, otherwise copy architecture-specific binaries
-	@if [ -f $(DIST_DIR)/tekmetric-mcp-darwin-universal ]; then \
-		cp $(DIST_DIR)/tekmetric-mcp-darwin-universal $(DIST_DIR)/extension/; \
+	@# Copy binaries from GoReleaser output structure or flat dist/
+	@if [ -d "$(DIST_DIR)/tekmetric-mcp_darwin_amd64_v1" ]; then \
+		echo "Using GoReleaser output structure..."; \
+		cp $(DIST_DIR)/tekmetric-mcp_darwin_amd64_v1/tekmetric-mcp $(DIST_DIR)/extension/tekmetric-mcp-darwin-amd64; \
+		cp $(DIST_DIR)/tekmetric-mcp_darwin_arm64_v8.0/tekmetric-mcp $(DIST_DIR)/extension/tekmetric-mcp-darwin-arm64; \
+		cp $(DIST_DIR)/tekmetric-mcp_linux_amd64_v1/tekmetric-mcp $(DIST_DIR)/extension/tekmetric-mcp-linux-amd64; \
+		cp $(DIST_DIR)/tekmetric-mcp_linux_arm64_v8.0/tekmetric-mcp $(DIST_DIR)/extension/tekmetric-mcp-linux-arm64; \
+		cp $(DIST_DIR)/tekmetric-mcp_windows_amd64_v1/tekmetric-mcp.exe $(DIST_DIR)/extension/tekmetric-mcp-windows-amd64.exe 2>/dev/null || true; \
+		if command -v lipo >/dev/null 2>&1; then \
+			echo "Creating macOS universal binary..."; \
+			lipo -create -output $(DIST_DIR)/extension/tekmetric-mcp-darwin-universal \
+				$(DIST_DIR)/extension/tekmetric-mcp-darwin-amd64 \
+				$(DIST_DIR)/extension/tekmetric-mcp-darwin-arm64; \
+		fi; \
 	else \
-		cp $(DIST_DIR)/tekmetric-mcp-darwin-arm64 $(DIST_DIR)/extension/; \
-		cp $(DIST_DIR)/tekmetric-mcp-darwin-amd64 $(DIST_DIR)/extension/; \
+		echo "Using flat dist/ structure..."; \
+		cp $(DIST_DIR)/tekmetric-mcp-darwin-amd64 $(DIST_DIR)/extension/ 2>/dev/null || true; \
+		cp $(DIST_DIR)/tekmetric-mcp-darwin-arm64 $(DIST_DIR)/extension/ 2>/dev/null || true; \
+		cp $(DIST_DIR)/tekmetric-mcp-linux-amd64 $(DIST_DIR)/extension/ 2>/dev/null || true; \
+		cp $(DIST_DIR)/tekmetric-mcp-linux-arm64 $(DIST_DIR)/extension/ 2>/dev/null || true; \
+		cp $(DIST_DIR)/tekmetric-mcp-windows-amd64.exe $(DIST_DIR)/extension/ 2>/dev/null || true; \
+		if [ -f $(DIST_DIR)/tekmetric-mcp-darwin-universal ]; then \
+			cp $(DIST_DIR)/tekmetric-mcp-darwin-universal $(DIST_DIR)/extension/; \
+		elif command -v lipo >/dev/null 2>&1 && [ -f $(DIST_DIR)/extension/tekmetric-mcp-darwin-amd64 ] && [ -f $(DIST_DIR)/extension/tekmetric-mcp-darwin-arm64 ]; then \
+			echo "Creating macOS universal binary..."; \
+			lipo -create -output $(DIST_DIR)/extension/tekmetric-mcp-darwin-universal \
+				$(DIST_DIR)/extension/tekmetric-mcp-darwin-amd64 \
+				$(DIST_DIR)/extension/tekmetric-mcp-darwin-arm64; \
+		fi; \
 	fi
-	@cp $(DIST_DIR)/tekmetric-mcp-linux-* $(DIST_DIR)/extension/ 2>/dev/null || true
-	@cp $(DIST_DIR)/tekmetric-mcp-windows-* $(DIST_DIR)/extension/ 2>/dev/null || true
 	@if [ -f icon.png ]; then cp icon.png $(DIST_DIR)/extension/; fi
 	@cd $(DIST_DIR)/extension && zip -r -X ../tekmetric-mcp.mcpb .
 	@rm -rf $(DIST_DIR)/extension
