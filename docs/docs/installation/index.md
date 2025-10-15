@@ -13,18 +13,20 @@ Before you start, you'll need:
 
 ### Tekmetric API Credentials
 
-These are like a special password that lets your AI assistant access your shop data.
+These are special credentials that let your AI assistant access your shop data.
 
-**Get your credentials:**
+**Important:** You must request API access from Tekmetric - it's not available directly in your account settings.
 
-1. Log into your Tekmetric account
-2. Click **Settings** in the menu
-3. Click **API Access**
-4. Click **Create New Application**
-5. Give it a name like "AI Assistant"
-6. Copy the **Client ID** and **Client Secret** (save these somewhere safe!)
+**How to get credentials:**
 
-❓ **Can't find API Access?** Ask your Tekmetric account manager - they can enable it for you.
+1. **Fill out the API Application form**: Contact your Tekmetric account manager or support team to request API access
+2. **Wait for approval**: Allow 2-3 weeks for Tekmetric to review your application
+3. **Receive credentials**: Tekmetric will provide you with a **Client ID** and **Client Secret**
+4. **Save them securely**: You'll need these to configure the MCP server
+
+❓ **Need help?** Contact Tekmetric support at support@tekmetric.com or call 832.787.0900
+
+⚠️ **Note:** API access approval is at Tekmetric's discretion. If you're building a third-party integration, approval is not guaranteed.
 
 ## Choose Your Installation Method
 

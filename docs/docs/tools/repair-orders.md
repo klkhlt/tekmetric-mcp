@@ -2,7 +2,7 @@
 sidebar_position: 6
 ---
 
-# Repair Order Tools
+# Repair Orders
 
 Access and search repair orders with powerful filtering by status, date, customer, and vehicle.
 

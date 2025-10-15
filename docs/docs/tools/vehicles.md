@@ -2,7 +2,7 @@
 sidebar_position: 8
 ---
 
-# Vehicle Tools
+# Vehicles
 
 Access and search vehicle records by VIN, license plate, or make/model.
 

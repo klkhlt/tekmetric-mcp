@@ -96,10 +96,14 @@ Show me the most common services we perform
 
 ### 1. Get API Credentials
 
-1. Log into your Tekmetric account
-2. Navigate to **Settings → API Access**
-3. Create a new API application
-4. Copy your Client ID and Client Secret
+**Important:** API access must be requested from Tekmetric.
+
+1. Contact your Tekmetric account manager or support team to request API access
+2. Wait 2-3 weeks for approval
+3. Receive your Client ID and Client Secret from Tekmetric
+4. Save them securely
+
+Contact: support@tekmetric.com | 832.787.0900
 
 ### 2. Install
 

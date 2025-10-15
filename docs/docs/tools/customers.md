@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Customer Tools
+# Customers
 
 Access and search customer records and contact information.
 

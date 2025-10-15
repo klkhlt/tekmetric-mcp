@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# Job Tools
+# Jobs
 
 Access and search individual service jobs on repair orders.
 

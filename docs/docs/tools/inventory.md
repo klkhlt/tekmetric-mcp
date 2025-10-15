@@ -2,10 +2,10 @@
 sidebar_position: 4
 ---
 
-# Inventory Tools
+# Inventory
 
 :::info Beta Feature
-Inventory tools use Tekmetric's Beta API. Features may be limited or change over time.
+Inventory uses Tekmetric's Beta API. Features may be limited or change over time.
 :::
 
 Access and search parts inventory and stock levels.

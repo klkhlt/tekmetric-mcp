@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Appointment Tools
+# Appointments
 
 Access and search scheduled appointments for your shop.
 

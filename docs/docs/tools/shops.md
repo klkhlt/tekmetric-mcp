@@ -2,7 +2,7 @@
 sidebar_position: 7
 ---
 
-# Shop Tools
+# Shops
 
 Access your shop information, settings, and details.
 

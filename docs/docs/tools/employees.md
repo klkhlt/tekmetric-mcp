@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Employee Tools
+# Employees
 
 Access and search employee and technician information.
 
