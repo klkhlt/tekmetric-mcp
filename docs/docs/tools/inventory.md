@@ -72,18 +72,18 @@ List parts we're out of
 What parts are overstocked?
 ```
 
-### Cost Analysis
+### Part Details
 
 ```
-What's our total inventory value?
-```
-
-```
-Show me most expensive parts
+Show me brake pad inventory
 ```
 
 ```
-List parts by cost
+Find oil filter part number 12345
+```
+
+```
+Look up air filter stock levels
 ```
 
 ### Examples by Role

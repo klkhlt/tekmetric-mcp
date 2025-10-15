@@ -38,7 +38,7 @@ This MCP server acts as a bridge between Claude Desktop and the Tekmetric API, a
 
 - **Query shop data** - Access information about shops, customers, vehicles, and repair orders
 - **Search records** - Find customers by name/email, vehicles by VIN/make/model, repair orders by status
-- **Analyze data** - Ask Claude to analyze customer patterns, repair trends, and shop performance
+- **Look up details** - Get contact info, vehicle specs, appointment times, job assignments
 - **Read-only access** - Safely explore your data without risk of accidental modifications
 
 ## Key Features

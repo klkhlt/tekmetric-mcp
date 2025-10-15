@@ -4,27 +4,13 @@ sidebar_position: 5
 
 # Usage Examples
 
-This page provides practical examples of using the Tekmetric MCP Server with Claude Desktop.
+Practical examples of using the Tekmetric MCP Server for **tactical, day-to-day queries**.
+
+:::warning Not For Financial Reporting
+This tool is designed for quick lookups and tactical queries, NOT for financial reporting, revenue calculations, or business intelligence. For comprehensive reports and analytics, use Tekmetric's built-in reporting tools.
+:::
 
 ## Basic Queries
-
-### Listing Resources
-
-```
-Show me all my shops
-```
-
-```
-Get customers from shop 123
-```
-
-```
-List all vehicles for shop 2
-```
-
-```
-Show me repair orders from the last week
-```
 
 ### Getting Specific Records
 
@@ -44,6 +30,20 @@ Get repair order 456
 Show me details for employee 111
 ```
 
+### Listing Recent Records
+
+```
+Show me today's appointments
+```
+
+```
+Get repair orders from this week
+```
+
+```
+List appointments for tomorrow
+```
+
 ## Search Queries
 
 ### Customer Search
@@ -53,21 +53,21 @@ Find customers named John Smith
 ```
 
 ```
-Search for customers with email containing "@gmail.com"
+Search for customer with phone 555-1234
 ```
 
 ```
-Find customer with phone number 555-1234
+Find customer with email john@example.com
 ```
 
 ```
-Show me all customers in Springfield
+Look up customer Mike Johnson
 ```
 
 ### Vehicle Search
 
 ```
-Find vehicles with VIN 1HGBH41JXMN109186
+Find vehicle with VIN 1HGBH41JXMN109186
 ```
 
 ```
@@ -75,245 +75,209 @@ Search for 2020 Toyota Camry
 ```
 
 ```
-Find all Honda vehicles
+Find vehicles with license plate ABC123
 ```
 
 ```
-Show me vehicles from 2018 or newer
+Look up Honda Accord
 ```
 
 ### Repair Order Search
 
 ```
-Find repair orders with status "complete"
+Find repair order #12345
 ```
 
 ```
-Search for RO number 12345
-```
-
-```
-Show me repair orders created this month
+Show me repair orders with status "wip"
 ```
 
 ```
 Find repair orders for customer 789
 ```
 
-## Data Analysis
-
-### Customer Analytics
-
 ```
-Analyze customer purchase patterns for shop 123
+Get estimates from last week
 ```
 
-```
-Show me customers who haven't visited in 6 months
-```
+## Daily Operations
+
+### Appointments
 
 ```
-What's the average customer lifetime value?
+Who's scheduled today?
 ```
 
 ```
-Which customers have the most repair orders?
-```
-
-### Repair Order Analytics
-
-```
-What are the most common repair types this quarter?
+What appointments does customer 456 have?
 ```
 
 ```
-Show me average repair order values by month
+Show me next week's schedule
 ```
 
 ```
-Analyze repair order completion times
+Find appointments for vehicle 789
+```
+
+### Work in Progress
+
+```
+What repair orders are in progress?
 ```
 
 ```
-Find repair orders over $1000
-```
-
-### Shop Performance
-
-```
-How many repair orders were completed this week?
+Show me all current estimates
 ```
 
 ```
-What's the shop's average labor rate?
+Find jobs assigned to technician 123
 ```
 
 ```
-Show me appointment volume by day of week
-```
-
-```
-Compare repair volumes across all shops
-```
-
-## Business Insights
-
-### Revenue Analysis
-
-```
-Calculate total revenue for last month
-```
-
-```
-Show me top 10 customers by spend
-```
-
-```
-What's the average invoice amount?
-```
-
-```
-Compare revenue year over year
+Which repair orders are waiting for parts?
 ```
 
 ### Customer Service
 
 ```
-Find customers with pending estimates
+What vehicles does customer 456 own?
 ```
 
 ```
-Show me vehicles due for service
+Find repair history for vehicle VIN 1HGBH41JXMN109186
 ```
 
 ```
-Which repair orders are overdue?
+Show me customer John Smith's contact info
 ```
 
 ```
-Find customers with multiple vehicles
+What's the status of repair order 789?
 ```
 
-### Inventory Management
-
-```
-Show me inventory parts below reorder point
-```
-
-```
-List all parts with quantity > 0
-```
-
-```
-Find parts used in recent repair orders
-```
-
-## Complex Queries
-
-### Multi-Step Analysis
-
-```
-Find all repair orders for customer John Smith's vehicles,
-calculate the total spend, and identify the most common repair types
-```
-
-```
-Get all vehicles for shop 123, find which haven't been serviced
-in 12 months, and list their owners
-```
-
-```
-Analyze all completed repair orders from last quarter,
-calculate average completion time, and identify bottlenecks
-```
-
-### Reporting
-
-```
-Create a summary report of all repair activity last month
-including total orders, revenue, and top customers
-```
-
-```
-Generate a customer retention report showing visit frequency
-and spending patterns
-```
-
-```
-Prepare a shop performance dashboard with key metrics
-```
-
-## Filtering and Sorting
+## Filtering Examples
 
 ### Date Ranges
 
 ```
-Show me repair orders created between Jan 1 and Jan 31
+Show me repair orders created last week
 ```
 
 ```
-Find customers added in the last 90 days
+Find appointments between Jan 1 and Jan 7
 ```
 
 ```
-Get appointments scheduled for next week
+Get estimates from yesterday
 ```
 
 ### Status Filtering
 
 ```
-Show me all estimates (status: estimate)
+Show me all estimates (not just completed work)
 ```
 
 ```
-Find work in progress (status: WIP)
+Find repair orders with status "complete"
 ```
 
 ```
-List completed but not posted orders
+List jobs that are authorized
 ```
 
 ### Combined Filters
 
 ```
-Find repair orders for shop 123, status complete,
-created this month, over $500
+Find wip repair orders for customer 123
 ```
 
 ```
-Search for vehicles: make Toyota, year 2020+,
-with repair orders in last 6 months
+Show me completed repair orders from last week
+```
+
+```
+Get appointments for customer 456 next week
 ```
 
 ## Tips for Better Results
 
 ### Be Specific
 
-❌ **Vague**: "Show me customers"
-✅ **Specific**: "Show me the first 50 customers from shop 123"
+❌ **Too broad**: "Show me all customers"
+✅ **Specific**: "Find customer named Mike Johnson"
 
-### Use Natural Language
+### Use Names and Numbers
 
-❌ **Too technical**: "Execute get_repair_orders with status=2"
-✅ **Natural**: "Show me repair orders in progress"
+❌ **Vague**: "Who came in recently?"
+✅ **Clear**: "Show me appointments from this week"
 
-### Break Down Complex Tasks
+### One Thing at a Time
 
-❌ **Too complex**: "Analyze everything about shop performance"
-✅ **Broken down**:
-1. "Show me total repair orders this month"
-2. "Calculate average repair order value"
-3. "List top 5 customers by spend"
+❌ **Too complex**: "Analyze revenue trends and customer patterns"
+✅ **Tactical**: "Show me repair orders from last week"
 
-### Specify Shops
+### Avoid Financial Calculations
 
-❌ **Ambiguous**: "Get customers"
-✅ **Clear**: "Get customers from shop 123"
+❌ **Don't ask**: "What's our total revenue this month?"
+✅ **Instead**: Use Tekmetric's built-in reports
 
-### Use Pagination
+❌ **Don't ask**: "Calculate average repair order value"
+✅ **Instead**: "Show me repair order #12345"
 
-❌ **Too broad**: "Show me all vehicles"
-✅ **Paginated**: "Show me the first 100 vehicles"
+## What NOT to Ask
+
+### ❌ Financial/Reporting Queries
+
+These require comprehensive data and should use Tekmetric's reports:
+
+- "Calculate total revenue for last month"
+- "What's our average repair order value?"
+- "Show me profit margins by service type"
+- "Compare revenue year over year"
+- "What's our average labor rate?"
+
+### ❌ Large-Scale Analysis
+
+Results are limited to 25 records, so avoid:
+
+- "Analyze all repair orders from last year"
+- "Show me customer lifetime values"
+- "Which services generate the most revenue?"
+- "Create a performance dashboard"
+- "Generate a customer retention report"
+
+### ❌ Complex Multi-Step Queries
+
+These are too complex for tactical lookups:
+
+- "Find all vehicles not serviced in 12 months and notify owners"
+- "Analyze completion times and identify bottlenecks"
+- "Compare shop performance across all locations"
+
+## What TO Ask Instead
+
+### ✅ Tactical Lookups
+
+- "Find customer Mike Johnson's phone number"
+- "Look up VIN 1HGBH41JXMN109186"
+- "Show me repair order #12345"
+- "What's on the schedule today?"
+- "Find jobs for technician 456"
+
+### ✅ Specific Searches
+
+- "Get repair orders for customer 789"
+- "Find vehicles owned by customer 123"
+- "Show me estimates from last week"
+- "What appointments are scheduled tomorrow?"
+
+### ✅ Status Checks
+
+- "What repair orders are in progress?"
+- "Show me today's appointments"
+- "Find jobs assigned to employee 111"
+- "Get details for vehicle ID 456"
 
 ## Error Handling
 
@@ -325,25 +289,26 @@ Make sure you're using the correct shop ID.
 Try: "Show me all my shops" first
 ```
 
-**Error**: "Authentication failed"
-```
-Check your credentials and try restarting Claude Desktop
-```
-
 **Error**: "Customer not found"
 ```
-Verify the customer ID exists:
-"Search for customers named [name]" to find the ID
+Try searching instead:
+"Find customers named [name]"
+```
+
+**Error**: "Too many results"
+```
+Add more specific filters:
+- Use customer ID, vehicle ID, or date range
+- Search for specific names or numbers
 ```
 
 ## Next Steps
 
-- Explore [Available Tools](../tools/index.md)
-- Review [Configuration Options](../configuration/index.md)
+- Review [Available Tools](../tools/index.md)
 - See [Installation Guide](../installation/index.md)
+- Check [Configuration Options](../configuration/index.md)
 
 ## Need Help?
 
 - [GitHub Issues](https://github.com/beetlebugorg/tekmetric-mcp/issues)
 - [Tekmetric API Documentation](https://api.tekmetric.com)
-- [MCP Protocol Docs](https://modelcontextprotocol.io)

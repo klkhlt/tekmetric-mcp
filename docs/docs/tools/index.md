@@ -151,18 +151,18 @@ Check parts inventory and stock levels.
 
 ### Combine Information
 
-You can ask about multiple things:
+You can ask about related things:
 
 ```
-Show me all repair orders for Sarah Johnson's vehicles
-```
-
-```
-Find customers who own Toyota Camrys and haven't visited in 6 months
+Show me all repair orders for customer 123's vehicles
 ```
 
 ```
-What's the total value of repair orders completed last month?
+Find vehicles owned by customer Sarah Johnson
+```
+
+```
+What appointments does customer 456 have this week?
 ```
 
 ## Common Workflows
@@ -187,17 +187,9 @@ Does John have any open repair orders?
 ### End of Day
 
 ```
-How many repair orders did we complete today?
 What's still in progress?
 Show me tomorrow's appointments
-```
-
-### End of Month
-
-```
-How many repair orders last month?
-What was our total revenue?
-How many new customers did we get?
+Any estimates waiting for approval?
 ```
 
 ## Tips for Better Results
