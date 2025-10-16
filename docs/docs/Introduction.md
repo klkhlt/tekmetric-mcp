@@ -3,8 +3,9 @@ sidebar_position: 1
 slug: /
 ---
 
-<div style={{textAlign: 'center', marginBottom: '2rem'}}>
-  <img src="/tekmetric-mcp/img/tekmetric-mcp-logo.png" alt="Tekmetric MCP Server" style={{maxWidth: '400px', width: '100%'}} />
+<div style={{marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem'}}>
+  <img src="/tekmetric-mcp/img/robot.png" alt="Tekmetric MCP Robot" style={{width: '120px', height: '120px'}} />
+  <h1 style={{margin: 0, fontSize: '2.5rem'}}>Tekmetric MCP Server</h1>
 </div>
 
 # Introduction
@@ -157,5 +158,7 @@ This is an AI-first project! We welcome contributions in the form of clear requi
 ## License
 
 MIT License - see [LICENSE](https://github.com/beetlebugorg/tekmetric-mcp/blob/main/LICENSE) file for details.
+
+**Robot illustration:** © 2019 Vijay Verma for [illlustrations.co](https://illlustrations.co) - [MIT License](https://illlustrations.co/license/)
 
 **Not affiliated with Tekmetric, Inc.**

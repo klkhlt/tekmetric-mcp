@@ -36,10 +36,10 @@ const config = {
   themeConfig: ({
     image: 'img/tekmetric-mcp.jpg',
     navbar: {
-      title: '',
+      title: 'Tekmetric MCP Server',
       logo: {
         alt: 'Tekmetric MCP Logo',
-        src: 'img/tekmetric-mcp-logo.png',
+        src: 'img/robot.png',
       },
       items: [
         {
