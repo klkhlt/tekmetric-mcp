@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/beetlebugorg/tekmetric-mcp/internal/tekmetric"
+	"github.com/beetlebugorg/tekmetric-mcp/pkg/tekmetric"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
 )

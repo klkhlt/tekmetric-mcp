@@ -30,7 +30,7 @@ deps: ## Download dependencies
 
 build: ## Build the binary for current platform
 	@echo "Building $(BINARY_NAME)..."
-	go build $(LDFLAGS) -o $(BINARY_NAME) .
+	go build $(LDFLAGS) -o $(BINARY_NAME) ./cmd/tekmetric-mcp
 	@echo "Build complete: ./$(BINARY_NAME)"
 
 build-all: clean ## Build binaries for all platforms
@@ -38,16 +38,16 @@ build-all: clean ## Build binaries for all platforms
 	@mkdir -p $(DIST_DIR)
 
 	@echo "Building for Linux AMD64..."
-	GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-linux-amd64 .
+	GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-linux-amd64 ./cmd/tekmetric-mcp
 
 	@echo "Building for Linux ARM64..."
-	GOOS=linux GOARCH=arm64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-linux-arm64 .
+	GOOS=linux GOARCH=arm64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-linux-arm64 ./cmd/tekmetric-mcp
 
 	@echo "Building for macOS AMD64..."
-	GOOS=darwin GOARCH=amd64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-darwin-amd64 .
+	GOOS=darwin GOARCH=amd64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-darwin-amd64 ./cmd/tekmetric-mcp
 
 	@echo "Building for macOS ARM64 (Apple Silicon)..."
-	GOOS=darwin GOARCH=arm64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-darwin-arm64 .
+	GOOS=darwin GOARCH=arm64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-darwin-arm64 ./cmd/tekmetric-mcp
 
 	@echo "Creating macOS universal binary..."
 	@if command -v lipo >/dev/null 2>&1; then \
@@ -60,14 +60,14 @@ build-all: clean ## Build binaries for all platforms
 	fi
 
 	@echo "Building for Windows AMD64..."
-	GOOS=windows GOARCH=amd64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-windows-amd64.exe .
+	GOOS=windows GOARCH=amd64 go build $(LDFLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-windows-amd64.exe ./cmd/tekmetric-mcp
 
 	@echo "All builds complete! Binaries in $(DIST_DIR)/"
 	@ls -lh $(DIST_DIR)
 
 install: build ## Install the binary to GOPATH/bin
 	@echo "Installing $(BINARY_NAME) to $(GOPATH)/bin..."
-	go install $(LDFLAGS) .
+	go install $(LDFLAGS) ./cmd/tekmetric-mcp
 	@echo "Installation complete!"
 
 test: ## Run tests
@@ -113,7 +113,7 @@ vet: ## Run go vet
 check: fmt vet lint test ## Run all checks (fmt, vet, lint, test)
 
 version: ## Show version information
-	@go run $(LDFLAGS) . version
+	@go run $(LDFLAGS) ./cmd/tekmetric-mcp version
 
 # Development helpers
 dev-setup: deps ## Set up development environment

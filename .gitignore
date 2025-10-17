@@ -38,7 +38,7 @@ Thumbs.db
 dist/
 build/
 bin/
-tekmetric-mcp
+/tekmetric-mcp
 
 # Logs
 *.log
