@@ -23,6 +23,20 @@ jobs:
       - name: Run tests
         run: go test -v ./...
 
+      - name: Test goreleaser config
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: '~> v2'
+          args: check
+
+      - name: Test release build (dry run)
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: '~> v2'
+          args: build --snapshot --clean --single-target
+
   build-docs:
     name: Build Documentation
     runs-on: ubuntu-latest
