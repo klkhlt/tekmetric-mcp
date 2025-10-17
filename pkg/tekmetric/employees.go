@@ -6,6 +6,18 @@ import (
 	"net/url"
 )
 
+// EmployeeQueryParams holds query parameters for employee searches
+type EmployeeQueryParams struct {
+	Shop             int    `url:"shop,omitempty"`
+	Page             int    `url:"page,omitempty"`
+	Size             int    `url:"size,omitempty"`
+	Search           string `url:"search,omitempty"`           // Search by name
+	UpdatedDateStart string `url:"updatedDateStart,omitempty"` // Filter by updated date
+	UpdatedDateEnd   string `url:"updatedDateEnd,omitempty"`   // Filter by updated date
+	Sort             string `url:"sort,omitempty"`             // Sort field (API docs don't specify allowed values)
+	SortDirection    string `url:"sortDirection,omitempty"`    // ASC, DESC
+}
+
 // GetEmployees returns a paginated list of employees
 func (c *Client) GetEmployees(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[Employee], error) {
 	if err := c.isAuthorizedShop(shopID); err != nil {

@@ -6,6 +6,24 @@ import (
 	"net/url"
 )
 
+// JobQueryParams holds query parameters for job searches
+type JobQueryParams struct {
+	Shop                 int    `url:"shop,omitempty"`
+	Page                 int    `url:"page,omitempty"`
+	Size                 int    `url:"size,omitempty"`
+	VehicleID            int    `url:"vehicleId,omitempty"`           // Filter by vehicle ID
+	RepairOrderID        int    `url:"repairOrderId,omitempty"`       // Filter by repair order
+	CustomerID           int    `url:"customerId,omitempty"`          // Filter by customer ID
+	Authorized           *bool  `url:"authorized,omitempty"`          // Filter by authorized jobs
+	AuthorizedDateStart  string `url:"authorizedDateStart,omitempty"` // Filter by authorization date
+	AuthorizedDateEnd    string `url:"authorizedDateEnd,omitempty"`   // Filter by authorization date
+	UpdatedDateStart     string `url:"updatedDateStart,omitempty"`    // Filter by updated date
+	UpdatedDateEnd       string `url:"updatedDateEnd,omitempty"`      // Filter by updated date
+	RepairOrderStatusIds []int  `url:"repairOrderStatusId,omitempty"` // 1-6 (no Deleted status for jobs)
+	Sort                 string `url:"sort,omitempty"`                // authorizedDate
+	SortDirection        string `url:"sortDirection,omitempty"`       // ASC, DESC
+}
+
 // GetJobs returns a paginated list of jobs
 func (c *Client) GetJobs(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[Job], error) {
 	if err := c.isAuthorizedShop(shopID); err != nil {

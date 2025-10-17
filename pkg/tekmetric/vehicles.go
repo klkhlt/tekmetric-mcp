@@ -6,6 +6,21 @@ import (
 	"net/url"
 )
 
+// VehicleQueryParams holds query parameters for vehicle searches
+type VehicleQueryParams struct {
+	Shop             int    `url:"shop,omitempty"`
+	Page             int    `url:"page,omitempty"`
+	Size             int    `url:"size,omitempty"`
+	CustomerID       int    `url:"customerId,omitempty"`       // Filter by customer
+	Search           string `url:"search,omitempty"`           // Search by year, make, model
+	UpdatedDateStart string `url:"updatedDateStart,omitempty"` // Filter by updated date
+	UpdatedDateEnd   string `url:"updatedDateEnd,omitempty"`   // Filter by updated date
+	DeletedDateStart string `url:"deletedDateStart,omitempty"` // Filter by deleted date
+	DeletedDateEnd   string `url:"deletedDateEnd,omitempty"`   // Filter by deleted date
+	Sort             string `url:"sort,omitempty"`             // Sort field (API docs don't specify allowed values)
+	SortDirection    string `url:"sortDirection,omitempty"`    // ASC, DESC
+}
+
 // GetVehicles returns a paginated list of vehicles
 func (c *Client) GetVehicles(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[Vehicle], error) {
 	if err := c.isAuthorizedShop(shopID); err != nil {

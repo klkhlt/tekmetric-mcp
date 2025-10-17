@@ -6,6 +6,25 @@ import (
 	"net/url"
 )
 
+// CustomerQueryParams holds query parameters for customer searches
+type CustomerQueryParams struct {
+	Shop                          int    `url:"shop,omitempty"`
+	Page                          int    `url:"page,omitempty"`
+	Size                          int    `url:"size,omitempty"`
+	Search                        string `url:"search,omitempty"`                        // Search by name, email, phone
+	Email                         string `url:"email,omitempty"`                         // Filter by email
+	Phone                         string `url:"phone,omitempty"`                         // Filter by phone
+	EligibleForAccountsReceivable *bool  `url:"eligibleForAccountsReceivable,omitempty"` // Filter by AR eligibility
+	OkForMarketing                *bool  `url:"okForMarketing,omitempty"`                // Filter by marketing permission
+	UpdatedDateStart              string `url:"updatedDateStart,omitempty"`              // Filter by updated date
+	UpdatedDateEnd                string `url:"updatedDateEnd,omitempty"`                // Filter by updated date
+	DeletedDateStart              string `url:"deletedDateStart,omitempty"`              // Filter by deleted date
+	DeletedDateEnd                string `url:"deletedDateEnd,omitempty"`                // Filter by deleted date
+	CustomerTypeID                int    `url:"customerTypeId,omitempty"`                // 1=Customer, 2=Business
+	Sort                          string `url:"sort,omitempty"`                          // lastName, firstName, email (can be comma-separated)
+	SortDirection                 string `url:"sortDirection,omitempty"`                 // ASC, DESC
+}
+
 // GetCustomers returns a paginated list of customers
 func (c *Client) GetCustomers(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[Customer], error) {
 	if err := c.isAuthorizedShop(shopID); err != nil {

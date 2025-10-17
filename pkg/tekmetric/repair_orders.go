@@ -6,6 +6,28 @@ import (
 	"net/url"
 )
 
+// RepairOrderQueryParams holds query parameters for repair order searches
+type RepairOrderQueryParams struct {
+	Shop                 int    `url:"shop,omitempty"`
+	Page                 int    `url:"page,omitempty"`
+	Size                 int    `url:"size,omitempty"`
+	Start                string `url:"start,omitempty"`            // Date format: YYYY-MM-DD
+	End                  string `url:"end,omitempty"`              // Date format: YYYY-MM-DD
+	PostedDateStart      string `url:"postedDateStart,omitempty"`  // Date format: YYYY-MM-DD
+	PostedDateEnd        string `url:"postedDateEnd,omitempty"`    // Date format: YYYY-MM-DD
+	UpdatedDateStart     string `url:"updatedDateStart,omitempty"` // Date format: YYYY-MM-DD
+	UpdatedDateEnd       string `url:"updatedDateEnd,omitempty"`   // Date format: YYYY-MM-DD
+	DeletedDateStart     string `url:"deletedDateStart,omitempty"` // Date format: YYYY-MM-DD
+	DeletedDateEnd       string `url:"deletedDateEnd,omitempty"`   // Date format: YYYY-MM-DD
+	RepairOrderNumber    int    `url:"repairOrderNumber,omitempty"`
+	RepairOrderStatusIds []int  `url:"repairOrderStatusId,omitempty"` // 1-Estimate, 2-WIP, 3-Complete, 4-Saved, 5-Posted, 6-AR, 7-Deleted
+	CustomerID           int    `url:"customerId,omitempty"`
+	VehicleID            int    `url:"vehicleId,omitempty"`
+	Search               string `url:"search,omitempty"`        // Search by RO#, customer name, vehicle info
+	Sort                 string `url:"sort,omitempty"`          // createdDate, repairOrderNumber, customer.firstName, customer.lastName
+	SortDirection        string `url:"sortDirection,omitempty"` // ASC, DESC
+}
+
 // GetRepairOrders returns a paginated list of repair orders
 func (c *Client) GetRepairOrders(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[RepairOrder], error) {
 	params := RepairOrderQueryParams{

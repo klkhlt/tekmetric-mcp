@@ -6,6 +6,22 @@ import (
 	"net/url"
 )
 
+// AppointmentQueryParams holds query parameters for appointment searches
+type AppointmentQueryParams struct {
+	Shop             int    `url:"shop,omitempty"`
+	Page             int    `url:"page,omitempty"`
+	Size             int    `url:"size,omitempty"`
+	CustomerID       int    `url:"customerId,omitempty"`       // Filter by customer
+	VehicleID        int    `url:"vehicleId,omitempty"`        // Filter by vehicle
+	Start            string `url:"start,omitempty"`            // Start date filter
+	End              string `url:"end,omitempty"`              // End date filter
+	UpdatedDateStart string `url:"updatedDateStart,omitempty"` // Filter by updated date
+	UpdatedDateEnd   string `url:"updatedDateEnd,omitempty"`   // Filter by updated date
+	IncludeDeleted   *bool  `url:"includeDeleted,omitempty"`   // Include deleted appointments (default: true)
+	Sort             string `url:"sort,omitempty"`             // Sort field (API docs don't specify allowed values)
+	SortDirection    string `url:"sortDirection,omitempty"`    // ASC, DESC
+}
+
 // GetAppointments returns a paginated list of appointments
 func (c *Client) GetAppointments(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[Appointment], error) {
 	if err := c.isAuthorizedShop(shopID); err != nil {

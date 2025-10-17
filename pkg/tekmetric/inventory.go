@@ -6,6 +6,21 @@ import (
 	"net/url"
 )
 
+// InventoryQueryParams holds query parameters for inventory searches
+type InventoryQueryParams struct {
+	Shop          int      `url:"shop"`       // Required: Shop ID
+	PartTypeID    int      `url:"partTypeId"` // Required: 1=Part, 2=Tire, 5=Battery
+	Page          int      `url:"page,omitempty"`
+	Size          int      `url:"size,omitempty"`
+	PartNumbers   []string `url:"partNumbers,omitempty"`   // Exact match on part numbers
+	Width         string   `url:"width,omitempty"`         // Tire width (tires only)
+	Ratio         float64  `url:"ratio,omitempty"`         // Tire ratio (tires only)
+	Diameter      float64  `url:"diameter,omitempty"`      // Tire diameter (tires only)
+	TireSize      string   `url:"tireSize,omitempty"`      // Tire size: width+ratio+diameter (tires only)
+	Sort          string   `url:"sort,omitempty"`          // id, name, brand, partNumber (comma-separated)
+	SortDirection string   `url:"sortDirection,omitempty"` // ASC, DESC
+}
+
 // GetInventory returns a paginated list of inventory parts
 // Note: partTypeId is REQUIRED by the Tekmetric API (1=Part, 2=Tire, 5=Battery)
 func (c *Client) GetInventory(ctx context.Context, shopID int, partTypeID int, page int, size int) (*PaginatedResponse[InventoryPart], error) {
