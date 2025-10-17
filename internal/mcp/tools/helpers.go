@@ -146,6 +146,7 @@ func requireStringArg(arguments map[string]interface{}, key string) (string, *mc
 
 // parseDateArg parses a date string (YYYY-MM-DD) and returns it in ISO8601/RFC3339 format with timezone
 // The Tekmetric API expects dates in ZonedDateTime format
+// Returns empty string and false if not provided, returns error string and false if invalid format
 func parseDateArg(arguments map[string]interface{}, key string) (string, bool) {
 	dateStr, ok := parseStringArg(arguments, key)
 	if !ok {
@@ -155,8 +156,8 @@ func parseDateArg(arguments map[string]interface{}, key string) (string, bool) {
 	// Try to parse as YYYY-MM-DD
 	t, err := time.Parse("2006-01-02", dateStr)
 	if err != nil {
-		// If parsing fails, return the original string
-		return dateStr, true
+		// If parsing fails, return error indication
+		return fmt.Sprintf("ERROR: invalid date format for %s: expected YYYY-MM-DD, got '%s'", key, dateStr), false
 	}
 
 	// Convert to start of day in local timezone with RFC3339 format

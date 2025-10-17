@@ -14,7 +14,10 @@ import (
 func (r *Registry) RegisterInventoryTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("inventory",
-			mcp.WithDescription("Search inventory parts by name or number, or list all parts. Returns part details including SKU, price, and quantity (Beta feature)."),
+			mcp.WithDescription("Search inventory parts by type, name, or number. Returns part details including SKU, price, and quantity (Beta feature). **REQUIRED: You must specify part_type_id.**"),
+			mcp.WithNumber("part_type_id",
+				mcp.Description("REQUIRED: Part type - 1 (Part), 2 (Tire), or 5 (Battery)"),
+			),
 			mcp.WithString("query",
 				mcp.Description("Search parts by name or part number (optional - omit to list all)"),
 			),
@@ -35,6 +38,12 @@ func (r *Registry) RegisterInventoryTools(s *server.MCPServer) {
 func (r *Registry) handleInventory(arguments map[string]interface{}) (*mcp.CallToolResult, error) {
 	ctx := context.Background()
 
+	// Get required part type ID
+	partTypeID, errResult := requireFloatArg(arguments, "part_type_id")
+	if errResult != nil {
+		return errResult, nil
+	}
+
 	// Get shop ID
 	shopID := r.config.Tekmetric.DefaultShopID
 	if shop, ok := parseFloatArg(arguments, "shop"); ok {
@@ -51,7 +60,7 @@ func (r *Registry) handleInventory(arguments map[string]interface{}) (*mcp.CallT
 	}
 
 	// Fetch inventory (always fetch first page for now)
-	inventory, err := r.client.GetInventory(ctx, shopID, 0, 100)
+	inventory, err := r.client.GetInventory(ctx, shopID, partTypeID, 0, 100)
 	if err != nil {
 		return mcp.NewToolResultError(fmt.Sprintf("Failed to get inventory: %v", err)), nil
 	}

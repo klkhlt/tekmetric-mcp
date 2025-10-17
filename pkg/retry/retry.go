@@ -1,7 +1,7 @@
-// Package ratelimit provides exponential backoff with jitter for handling API rate limits.
+// Package retry provides exponential backoff with jitter for retrying failed requests.
 // It implements a retry mechanism that gradually increases wait times between attempts
-// to prevent overwhelming rate-limited APIs.
-package ratelimit
+// to handle temporary API failures (rate limits, server errors, etc).
+package retry
 
 import (
 	"math"
@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// RateLimiter implements exponential backoff with jitter for API rate limiting.
+// Retryer implements exponential backoff with jitter for retrying failed operations.
 // It retries failed operations with increasing delays between attempts.
 //
 // The backoff formula is: min(((2^n) + random_milliseconds), max_backoff)
@@ -21,21 +21,21 @@ import (
 //   - Attempt 3: 8 seconds
 //   - Attempt 4: 16 seconds
 //   - etc., up to maxBackoff
-type RateLimiter struct {
+type Retryer struct {
 	maxRetries int // Maximum number of retry attempts
 	maxBackoff int // Maximum backoff duration in seconds
 }
 
-// New creates a new RateLimiter with the specified retry and backoff limits.
+// New creates a new Retryer with the specified retry and backoff limits.
 //
 // Parameters:
 //   - maxRetries: Maximum number of times to retry a failed operation
 //   - maxBackoffSec: Maximum wait time between retries in seconds
 //
 // Returns:
-//   - *RateLimiter: Configured rate limiter instance
-func New(maxRetries, maxBackoffSec int) *RateLimiter {
-	return &RateLimiter{
+//   - *Retryer: Configured retryer instance
+func New(maxRetries, maxBackoffSec int) *Retryer {
+	return &Retryer{
 		maxRetries: maxRetries,
 		maxBackoff: maxBackoffSec,
 	}
@@ -61,7 +61,7 @@ type Temporary interface {
 //
 // Returns:
 //   - error: The last error returned by fn, or nil on success
-func (rl *RateLimiter) Do(fn func() error) error {
+func (rl *Retryer) Do(fn func() error) error {
 	var err error
 
 	// Try the operation up to maxRetries + 1 times (initial attempt + retries)
@@ -152,7 +152,7 @@ func indexOf(s, substr string) int {
 //
 // Returns:
 //   - time.Duration: Time to wait before next retry
-func (rl *RateLimiter) calculateBackoff(attempt int) time.Duration {
+func (rl *Retryer) calculateBackoff(attempt int) time.Duration {
 	// Calculate exponential component: 2^(n+1) seconds
 	exponential := math.Pow(2, float64(attempt+1))
 

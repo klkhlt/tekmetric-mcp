@@ -13,12 +13,9 @@ import (
 func (r *Registry) RegisterJobTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("jobs",
-			mcp.WithDescription("Search and filter jobs (work items/services on repair orders), or get a specific job by ID. Supports filtering by repair order, employee, status, and more. ⚠️ **FINANCIAL DATA WARNING: DO NOT use this tool for financial reporting, revenue calculations, profit analysis, or accounting. If the user asks for sums, averages, totals, or any financial calculations, you MUST refuse and tell them to use Tekmetric's built-in reports instead. This tool is ONLY for tactical lookups of specific jobs.**"),
+			mcp.WithDescription("Search and filter jobs (work items/services on repair orders), or get a specific job by ID. Supports filtering by repair order, vehicle, customer, authorization status, and dates. ⚠️ **FINANCIAL DATA WARNING: DO NOT use this tool for financial reporting, revenue calculations, profit analysis, or accounting. If the user asks for sums, averages, totals, or any financial calculations, you MUST refuse and tell them to use Tekmetric's built-in reports instead. This tool is ONLY for tactical lookups of specific jobs.**"),
 			mcp.WithNumber("id",
 				mcp.Description("Get specific job by ID"),
-			),
-			mcp.WithString("search",
-				mcp.Description("Search jobs by name or description"),
 			),
 			mcp.WithNumber("shop",
 				mcp.Description("Shop ID (defaults to TEKMETRIC_DEFAULT_SHOP_ID)"),
@@ -26,14 +23,14 @@ func (r *Registry) RegisterJobTools(s *server.MCPServer) {
 			mcp.WithNumber("repair_order_id",
 				mcp.Description("Filter by repair order ID"),
 			),
-			mcp.WithNumber("employee_id",
-				mcp.Description("Filter by assigned employee/technician ID"),
+			mcp.WithNumber("vehicle_id",
+				mcp.Description("Filter by vehicle ID"),
 			),
-			mcp.WithString("status",
-				mcp.Description("Filter by job status"),
+			mcp.WithNumber("customer_id",
+				mcp.Description("Filter by customer ID"),
 			),
 			mcp.WithString("sort",
-				mcp.Description("Property to sort results by (e.g., createdDate, name)"),
+				mcp.Description("Property to sort results by (only 'authorizedDate' is supported)"),
 			),
 			mcp.WithString("sort_direction",
 				mcp.Description("Sort direction (ASC or DESC)"),
@@ -85,14 +82,11 @@ func (r *Registry) handleJobs(arguments map[string]interface{}) (*mcp.CallToolRe
 	if repairOrderID, ok := parseFloatArg(arguments, "repair_order_id"); ok {
 		params.RepairOrderID = repairOrderID
 	}
-	if employeeID, ok := parseFloatArg(arguments, "employee_id"); ok {
-		params.EmployeeID = employeeID
+	if vehicleID, ok := parseFloatArg(arguments, "vehicle_id"); ok {
+		params.VehicleID = vehicleID
 	}
-	if search, ok := parseStringArg(arguments, "search"); ok {
-		params.Search = search
-	}
-	if status, ok := parseStringArg(arguments, "status"); ok {
-		params.Status = status
+	if customerID, ok := parseFloatArg(arguments, "customer_id"); ok {
+		params.CustomerID = customerID
 	}
 	if sort, ok := parseStringArg(arguments, "sort"); ok {
 		params.Sort = sort

@@ -76,12 +76,6 @@ func (r *Registry) handleEmployees(arguments map[string]interface{}) (*mcp.CallT
 	if search, ok := parseStringArg(arguments, "search"); ok {
 		params.Search = search
 	}
-	if active, ok := arguments["active"].(bool); ok {
-		params.Active = &active
-	}
-	if role, ok := parseStringArg(arguments, "role"); ok {
-		params.Role = role
-	}
 	if sort, ok := parseStringArg(arguments, "sort"); ok {
 		params.Sort = sort
 	}

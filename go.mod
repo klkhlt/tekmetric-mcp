@@ -1,6 +1,6 @@
 module github.com/beetlebugorg/tekmetric-mcp
 
-go 1.23.2
+go 1.24.0
 
 require (
 	github.com/alecthomas/kong v0.9.0
@@ -27,6 +27,7 @@ require (
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/time v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

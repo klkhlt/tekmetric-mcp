@@ -28,7 +28,8 @@ func (c *Currency) UnmarshalJSON(data []byte) error {
 type TokenResponse struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
-	Scope       string `json:"scope"` // Space-separated shop IDs
+	ExpiresIn   int    `json:"expires_in"` // Token lifetime in seconds
+	Scope       string `json:"scope"`      // Space-separated shop IDs
 }
 
 // Shop represents a Tekmetric shop

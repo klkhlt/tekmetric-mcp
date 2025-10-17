@@ -5,8 +5,10 @@ package config
 
 import (
 	"fmt"
+	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -130,6 +132,26 @@ func (c *Config) Validate() error {
 	if c.Tekmetric.BaseURL == "" {
 		return fmt.Errorf("tekmetric.base_url is required")
 	}
+
+	// Validate base URL format and security
+	u, err := url.Parse(c.Tekmetric.BaseURL)
+	if err != nil {
+		return fmt.Errorf("tekmetric.base_url must be a valid URL: %w", err)
+	}
+	if u.Scheme == "" || u.Host == "" {
+		return fmt.Errorf("tekmetric.base_url must include scheme (https://) and host")
+	}
+
+	// Enforce HTTPS except for sandbox/localhost
+	if u.Scheme != "https" {
+		isSandbox := strings.Contains(strings.ToLower(u.Host), "sandbox")
+		isLocalhost := strings.Contains(strings.ToLower(u.Host), "localhost") || strings.HasPrefix(u.Host, "127.0.0.1")
+
+		if !isSandbox && !isLocalhost {
+			return fmt.Errorf("tekmetric.base_url must use HTTPS for production environments")
+		}
+	}
+
 	if c.Tekmetric.TimeoutSeconds <= 0 {
 		return fmt.Errorf("tekmetric.timeout_seconds must be positive")
 	}
