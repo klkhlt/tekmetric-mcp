@@ -159,4 +159,4 @@ TEKMETRIC_ANALYSIS_TIMEOUT_SECONDS=120
 
 - [Repair Orders Tool](repair-orders.md) - For quick repair order lookups
 - [Vehicles Tool](vehicles.md) - For finding vehicle IDs
-- [Configuration](../configuration/environment-variables.md) - Analysis tool settings
+- [Configuration](../configuration/index.md) - Analysis tool settings
