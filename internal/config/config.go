@@ -21,6 +21,7 @@ import (
 type Config struct {
 	Tekmetric TekmetricConfig `mapstructure:"tekmetric"` // Tekmetric API settings
 	Server    ServerConfig    `mapstructure:"server"`    // MCP server settings
+	Analysis  AnalysisConfig  `mapstructure:"analysis"`  // Analysis tool settings
 }
 
 // TekmetricConfig holds Tekmetric API configuration.
@@ -41,6 +42,15 @@ type ServerConfig struct {
 	Name    string `mapstructure:"name"`    // Server name
 	Version string `mapstructure:"version"` // Server version
 	Debug   bool   `mapstructure:"debug"`   // Enable debug logging
+}
+
+// AnalysisConfig holds configuration for analysis tools.
+// These settings control safety limits and behavior for data analysis tools.
+type AnalysisConfig struct {
+	MaxPages       int  `mapstructure:"max_pages"`        // Maximum pages to fetch per analysis (safety limit)
+	MaxRecords     int  `mapstructure:"max_records"`      // Maximum records to process (memory safety)
+	TimeoutSeconds int  `mapstructure:"timeout_seconds"`  // Analysis timeout in seconds
+	EnableCaching  bool `mapstructure:"enable_caching"`   // Enable result caching (future feature)
 }
 
 // Load loads configuration from multiple sources in order of precedence:
@@ -67,6 +77,10 @@ func Load() (*Config, error) {
 	v.SetDefault("server.name", "tekmetric-mcp")
 	v.SetDefault("server.version", "0.1.0")
 	v.SetDefault("server.debug", false)
+	v.SetDefault("analysis.max_pages", 50)
+	v.SetDefault("analysis.max_records", 5000)
+	v.SetDefault("analysis.timeout_seconds", 120)
+	v.SetDefault("analysis.enable_caching", false)
 
 	// Enable environment variable support
 	// Environment variables should be prefixed with TEKMETRIC_

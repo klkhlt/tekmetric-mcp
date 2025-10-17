@@ -7,6 +7,7 @@ import (
 	"log/slog"
 
 	"github.com/beetlebugorg/tekmetric-mcp/internal/config"
+	"github.com/beetlebugorg/tekmetric-mcp/internal/mcp/analysis"
 	"github.com/beetlebugorg/tekmetric-mcp/internal/mcp/tools"
 	"github.com/beetlebugorg/tekmetric-mcp/pkg/tekmetric"
 	"github.com/mark3labs/mcp-go/server"
@@ -57,6 +58,11 @@ func NewServer(cfg *config.Config, logger *slog.Logger) (*Server, error) {
 	// Register all Tekmetric tools (shops, customers, vehicles, etc.)
 	toolRegistry := tools.NewRegistry(tekmetricClient, cfg, logger)
 	toolRegistry.RegisterAll(mcpServer)
+
+	// Register analysis tools
+	analysisRegistry := analysis.NewRegistry(tekmetricClient, cfg, logger)
+	analysisRegistry.Register(analysis.NewVehicleServiceAnalysis(tekmetricClient, cfg, logger))
+	analysisRegistry.RegisterAll(mcpServer)
 
 	return s, nil
 }

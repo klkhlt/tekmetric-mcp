@@ -52,11 +52,24 @@ Find repair orders for customer 456
 What vehicles does customer 123 own?
 ```
 
+### Analyze Service History
+
+```
+Analyze the service history for vehicle 12345
+```
+
+Get a complete timeline with:
+- All services and parts replaced
+- Spending patterns and maintenance adherence
+- Recurring issues and recommendations
+- Formatted as clean markdown tables
+
 ## Features
 
 - **Natural Language** - Just ask questions, no commands to memorize
 - **Real-Time Data** - Direct access to your Tekmetric data
 - **Smart Search** - Find anything by name, VIN, date, status, and more
+- **Service History Analysis** - Complete vehicle timelines with AI-powered insights
 - **Rich Context** - See customer names, vehicle details, and formatted prices automatically
 - **Fast & Lightweight** - Single binary, no dependencies, instant responses
 
@@ -67,6 +80,7 @@ What vehicles does customer 123 own?
 - Find vehicle details by VIN or license plate
 - Check appointment schedules
 - Search for specific repair orders
+- Analyze complete service history timelines
 - Get technician assignments
 
 **NOT designed for:**
@@ -140,7 +154,11 @@ Quit and reopen Claude Desktop. Look for the 🔌 icon to verify connection.
 
 **Inventory** - Check parts stock levels and availability (Beta)
 
+**Analysis Tools** - Get comprehensive vehicle service history with intelligent formatting
+
 ## Example Queries
+
+### Basic Lookups
 
 ```
 Show me today's appointments
@@ -165,6 +183,21 @@ List all employees
 ```
 What's in inventory?
 ```
+
+### Service History Analysis
+
+```
+Analyze service history for vehicle 12345
+```
+
+This returns a complete timeline showing:
+- Every service visit with dates and mileage
+- All services performed and parts replaced
+- Labor hours and costs
+- Customer concerns reported
+- Formatted as scannable markdown tables
+- Automatic categorization (oil changes, brakes, etc.)
+- Spending patterns and maintenance insights
 
 ## 📚 Documentation
 
