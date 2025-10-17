@@ -4,7 +4,137 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 )
+
+// ============================================================================
+// Models
+// ============================================================================
+
+// PartType represents the type of a part
+type PartType struct {
+	ID   int    `json:"id"`
+	Code string `json:"code"`
+	Name string `json:"name"`
+}
+
+// Part represents a vehicle part
+type Part struct {
+	ID               int       `json:"id"`
+	Quantity         float64   `json:"quantity"`
+	Brand            string    `json:"brand,omitempty"`
+	Name             string    `json:"name,omitempty"`
+	PartNumber       string    `json:"partNumber,omitempty"`
+	Description      string    `json:"description,omitempty"`
+	Cost             Currency  `json:"cost"`
+	Retail           Currency  `json:"retail"`
+	Model            *string   `json:"model,omitempty"`
+	Width            *string   `json:"width,omitempty"`
+	Ratio            *float64  `json:"ratio,omitempty"`
+	Diameter         *float64  `json:"diameter,omitempty"`
+	ConstructionType *string   `json:"constructionType,omitempty"`
+	LoadIndex        *string   `json:"loadIndex,omitempty"`
+	SpeedRating      *string   `json:"speedRating,omitempty"`
+	PartType         *PartType `json:"partType,omitempty"`
+	DOTNumbers       []string  `json:"dotNumbers,omitempty"`
+}
+
+// Labor represents labor on a job
+type Labor struct {
+	ID       int      `json:"id"`
+	Name     string   `json:"name"`
+	Rate     Currency `json:"rate"`
+	Hours    float64  `json:"hours"`
+	Complete bool     `json:"complete"`
+}
+
+// Fee represents a fee
+type Fee struct {
+	ID    int      `json:"id"`
+	Name  string   `json:"name"`
+	Total Currency `json:"total"`
+}
+
+// Discount represents a discount
+type Discount struct {
+	ID    int      `json:"id"`
+	Name  string   `json:"name"`
+	Total Currency `json:"total"`
+}
+
+// Job represents a job on a repair order
+type Job struct {
+	ID              int        `json:"id"`
+	RepairOrderID   int        `json:"repairOrderId"`
+	VehicleID       int        `json:"vehicleId"`
+	CustomerID      int        `json:"customerId"`
+	Name            string     `json:"name"`
+	Authorized      bool       `json:"authorized"`
+	AuthorizedDate  *string    `json:"authorizedDate,omitempty"`
+	Selected        bool       `json:"selected"`
+	TechnicianID    *int       `json:"technicianId"`
+	Note            string     `json:"note,omitempty"`
+	JobCategoryName string     `json:"jobCategoryName,omitempty"`
+	PartsTotal      Currency   `json:"partsTotal"`
+	LaborTotal      Currency   `json:"laborTotal"`
+	DiscountTotal   Currency   `json:"discountTotal"`
+	FeeTotal        Currency   `json:"feeTotal"`
+	Subtotal        Currency   `json:"subtotal"`
+	Archived        bool       `json:"archived"`
+	CreatedDate     time.Time  `json:"createdDate"`
+	UpdatedDate     time.Time  `json:"updatedDate"`
+	CompletedDate   *time.Time `json:"completedDate,omitempty"`
+	Labor           []Labor    `json:"labor,omitempty"`
+	Parts           []Part     `json:"parts,omitempty"`
+	Fees            []Fee      `json:"fees,omitempty"`
+	Discounts       []Discount `json:"discounts,omitempty"`
+	LaborHours      float64    `json:"laborHours"`
+	LoggedHours     float64    `json:"loggedHours"`
+	Sort            int        `json:"sort,omitempty"`
+}
+
+// Vendor represents a vendor/supplier
+type Vendor struct {
+	ID       int     `json:"id"`
+	Name     string  `json:"name"`
+	Nickname string  `json:"nickname,omitempty"`
+	Website  *string `json:"website"`
+	Phone    *string `json:"phone"`
+}
+
+// SubletItem represents an item in a sublet
+type SubletItem struct {
+	ID       int      `json:"id"`
+	Name     string   `json:"name"`
+	Cost     Currency `json:"cost"`
+	Price    Currency `json:"price"`
+	Complete bool     `json:"complete"`
+}
+
+// Sublet represents subcontracted work
+type Sublet struct {
+	ID             int          `json:"id"`
+	Name           string       `json:"name"`
+	Vendor         *Vendor      `json:"vendor,omitempty"`
+	Authorized     *bool        `json:"authorized"`
+	AuthorizedDate *string      `json:"authorizedDate"`
+	Selected       bool         `json:"selected"`
+	Note           *string      `json:"note"`
+	Items          []SubletItem `json:"items,omitempty"`
+	Price          Currency     `json:"price"`
+	Cost           Currency     `json:"cost"`
+}
+
+// CustomerConcern represents a customer's concern
+type CustomerConcern struct {
+	ID          int     `json:"id"`
+	Concern     string  `json:"concern"`
+	TechComment *string `json:"techComment"`
+}
+
+// ============================================================================
+// API Methods
+// ============================================================================
 
 // JobQueryParams holds query parameters for job searches
 type JobQueryParams struct {

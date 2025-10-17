@@ -4,7 +4,73 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 )
+
+// ============================================================================
+// Models
+// ============================================================================
+
+// RepairOrderStatus represents the status of a repair order
+type RepairOrderStatus struct {
+	ID   int    `json:"id"`
+	Code string `json:"code"`
+	Name string `json:"name"`
+}
+
+// RepairOrderLabel represents a label for a repair order
+type RepairOrderLabel struct {
+	ID     int                `json:"id"`
+	Code   string             `json:"code"`
+	Name   string             `json:"name"`
+	Status *RepairOrderStatus `json:"status,omitempty"`
+}
+
+// RepairOrderCustomLabel represents a custom label
+type RepairOrderCustomLabel struct {
+	Name string `json:"name"`
+}
+
+// RepairOrder represents a repair order
+type RepairOrder struct {
+	ID                     int                     `json:"id"`
+	RepairOrderNumber      int                     `json:"repairOrderNumber"`
+	ShopID                 int                     `json:"shopId"`
+	RepairOrderStatus      RepairOrderStatus       `json:"repairOrderStatus"`
+	RepairOrderLabel       *RepairOrderLabel       `json:"repairOrderLabel,omitempty"`
+	RepairOrderCustomLabel *RepairOrderCustomLabel `json:"repairOrderCustomLabel,omitempty"`
+	Color                  string                  `json:"color,omitempty"`
+	AppointmentStartTime   *time.Time              `json:"appointmentStartTime,omitempty"`
+	CustomerID             int                     `json:"customerId"`
+	TechnicianID           *int                    `json:"technicianId"`
+	ServiceWriterID        *int                    `json:"serviceWriterId"`
+	VehicleID              int                     `json:"vehicleId"`
+	MilesIn                *float64                `json:"milesIn"`
+	MilesOut               *float64                `json:"milesOut"`
+	Keytag                 *string                 `json:"keytag"`
+	CompletedDate          *time.Time              `json:"completedDate"`
+	PostedDate             *time.Time              `json:"postedDate"`
+	LaborSales             Currency                `json:"laborSales"`
+	PartsSales             Currency                `json:"partsSales"`
+	SubletSales            Currency                `json:"subletSales"`
+	DiscountTotal          Currency                `json:"discountTotal"`
+	FeeTotal               Currency                `json:"feeTotal"`
+	Taxes                  Currency                `json:"taxes"`
+	AmountPaid             Currency                `json:"amountPaid"`
+	TotalSales             Currency                `json:"totalSales"`
+	Jobs                   []Job                   `json:"jobs,omitempty"`
+	Sublets                []Sublet                `json:"sublets,omitempty"`
+	Fees                   []Fee                   `json:"fees,omitempty"`
+	Discounts              []Discount              `json:"discounts,omitempty"`
+	CustomerConcerns       []CustomerConcern       `json:"customerConcerns,omitempty"`
+	CreatedDate            time.Time               `json:"createdDate"`
+	UpdatedDate            time.Time               `json:"updatedDate"`
+	DeletedDate            *time.Time              `json:"deletedDate"`
+}
+
+// ============================================================================
+// API Methods
+// ============================================================================
 
 // RepairOrderQueryParams holds query parameters for repair order searches
 type RepairOrderQueryParams struct {

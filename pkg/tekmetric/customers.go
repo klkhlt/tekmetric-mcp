@@ -4,7 +4,44 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 )
+
+// ============================================================================
+// Models
+// ============================================================================
+
+// CustomerType represents the type of customer
+type CustomerType struct {
+	ID   int    `json:"id"`
+	Code string `json:"code"`
+	Name string `json:"name"`
+}
+
+// Customer represents a Tekmetric customer
+type Customer struct {
+	ID                            int           `json:"id"`
+	FirstName                     string        `json:"firstName"`
+	LastName                      string        `json:"lastName"`
+	Email                         string        `json:"email"`
+	Phone                         []Phone       `json:"phone"`
+	CustomerType                  *CustomerType `json:"customerType,omitempty"`
+	ContactFirstName              *string       `json:"contactFirstName"`
+	ContactLastName               *string       `json:"contactLastName"`
+	Address                       *Address      `json:"address"`
+	ShopID                        int           `json:"shopId"`
+	EligibleForAccountsReceivable bool          `json:"eligibleForAccountsReceivable"`
+	CreditLimit                   float64       `json:"creditLimit"`
+	OkForMarketing                bool          `json:"okForMarketing"`
+	Notes                         string        `json:"notes,omitempty"`
+	CreatedDate                   time.Time     `json:"createdDate"`
+	UpdatedDate                   time.Time     `json:"updatedDate"`
+	DeletedDate                   *time.Time    `json:"deletedDate"`
+}
+
+// ============================================================================
+// API Methods
+// ============================================================================
 
 // CustomerQueryParams holds query parameters for customer searches
 // Note: By default, deleted records are excluded unless DeletedDateStart/DeletedDateEnd are explicitly set

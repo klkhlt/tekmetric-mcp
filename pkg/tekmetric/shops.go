@@ -5,6 +5,26 @@ import (
 	"fmt"
 )
 
+// ============================================================================
+// Models
+// ============================================================================
+
+// Shop represents a Tekmetric shop
+type Shop struct {
+	ID                   int     `json:"id"`
+	Name                 string  `json:"name"`
+	Nickname             string  `json:"nickname"`
+	Phone                string  `json:"phone"`
+	Email                string  `json:"email"`
+	Website              string  `json:"website"`
+	Address              Address `json:"address"`
+	ROCustomLabelEnabled bool    `json:"roCustomLabelEnabled"`
+}
+
+// ============================================================================
+// API Methods
+// ============================================================================
+
 // GetShops returns all shops accessible by the current token
 func (c *Client) GetShops(ctx context.Context) ([]Shop, error) {
 	var shops []Shop
