@@ -122,6 +122,9 @@ func (r *Registry) handleRepairOrders(arguments map[string]interface{}) (*mcp.Ca
 				params.RepairOrderStatusIds = append(params.RepairOrderStatusIds, statusID)
 			}
 		}
+	} else {
+		// Default: exclude status 7 (Deleted)
+		params.RepairOrderStatusIds = []int{1, 2, 3, 4, 5, 6}
 	}
 	if customerID, ok := parseFloatArg(arguments, "customer_id"); ok {
 		params.CustomerID = customerID

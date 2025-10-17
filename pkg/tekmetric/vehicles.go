@@ -15,8 +15,6 @@ type VehicleQueryParams struct {
 	Search           string `url:"search,omitempty"`           // Search by year, make, model
 	UpdatedDateStart string `url:"updatedDateStart,omitempty"` // Filter by updated date
 	UpdatedDateEnd   string `url:"updatedDateEnd,omitempty"`   // Filter by updated date
-	DeletedDateStart string `url:"deletedDateStart,omitempty"` // Filter by deleted date
-	DeletedDateEnd   string `url:"deletedDateEnd,omitempty"`   // Filter by deleted date
 	Sort             string `url:"sort,omitempty"`             // Sort field (API docs don't specify allowed values)
 	SortDirection    string `url:"sortDirection,omitempty"`    // ASC, DESC
 }
@@ -88,12 +86,6 @@ func (c *Client) GetVehiclesWithParams(ctx context.Context, params VehicleQueryP
 	}
 	if params.UpdatedDateEnd != "" {
 		query.Add("updatedDateEnd", params.UpdatedDateEnd)
-	}
-	if params.DeletedDateStart != "" {
-		query.Add("deletedDateStart", params.DeletedDateStart)
-	}
-	if params.DeletedDateEnd != "" {
-		query.Add("deletedDateEnd", params.DeletedDateEnd)
 	}
 	if params.Sort != "" {
 		query.Add("sort", params.Sort)
