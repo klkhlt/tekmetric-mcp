@@ -311,4 +311,4 @@ Add more specific filters:
 ## Need Help?
 
 - [GitHub Issues](https://github.com/beetlebugorg/tekmetric-mcp/issues)
-- [Tekmetric API Documentation](https://api.tekmetric.com)
+- [Tekmetric API Documentation](https://shop.tekmetric.com)

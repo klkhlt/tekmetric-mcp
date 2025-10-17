@@ -97,7 +97,7 @@ Get a complete timeline with:
 
 **Important:** API access must be requested from Tekmetric.
 
-1. Visit [api.tekmetric.com](https://api.tekmetric.com) to request API access
+1. Visit [shop.tekmetric.com](https://shop.tekmetric.com) to request API access
 2. Wait 2-3 weeks for approval
 3. Receive your Client ID and Client Secret from Tekmetric
 4. Save them securely
@@ -124,7 +124,7 @@ Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_
       "env": {
         "TEKMETRIC_CLIENT_ID": "your_client_id",
         "TEKMETRIC_CLIENT_SECRET": "your_client_secret",
-        "TEKMETRIC_BASE_URL": "https://api.tekmetric.com",
+        "TEKMETRIC_BASE_URL": "https://shop.tekmetric.com",
         "TEKMETRIC_DEFAULT_SHOP_ID": "123"
       }
     }
