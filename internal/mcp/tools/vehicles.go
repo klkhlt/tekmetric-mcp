@@ -3,7 +3,6 @@ package tools
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/beetlebugorg/tekmetric-mcp/pkg/tekmetric"
 	"github.com/mark3labs/mcp-go/mcp"
@@ -116,60 +115,4 @@ func (r *Registry) handleVehicles(arguments map[string]interface{}) (*mcp.CallTo
 		25,
 		"VEHICLES",
 	)
-}
-
-// formatVehicleSummary creates a formatted summary of a vehicle
-func (r *Registry) formatVehicleSummary(v *tekmetric.Vehicle) (*mcp.CallToolResult, error) {
-	var summary strings.Builder
-
-	// Header
-	vehicleName := fmt.Sprintf("%d %s %s", v.Year, v.Make, v.Model)
-	if v.SubModel != "" {
-		vehicleName += fmt.Sprintf(" %s", v.SubModel)
-	}
-	if v.Color != "" {
-		vehicleName += fmt.Sprintf(" (%s)", v.Color)
-	}
-	summary.WriteString(vehicleName + "\n")
-	summary.WriteString(fmt.Sprintf("Vehicle ID: %d\n\n", v.ID))
-
-	// Identification
-	if v.VIN != "" {
-		summary.WriteString(fmt.Sprintf("VIN: %s\n", v.VIN))
-	}
-	if v.LicensePlate != "" {
-		summary.WriteString(fmt.Sprintf("License Plate: %s\n", v.LicensePlate))
-	}
-	if v.UnitNumber != "" {
-		summary.WriteString(fmt.Sprintf("Unit Number: %s\n", v.UnitNumber))
-	}
-
-	// Mileage
-	if v.Mileage > 0 {
-		summary.WriteString(fmt.Sprintf("Current Mileage: %.0f miles\n", v.Mileage))
-	}
-
-	// Technical Specifications
-	if v.Engine != "" || v.Transmission != "" || v.DriveType != "" {
-		summary.WriteString("\n")
-		if v.Engine != "" {
-			summary.WriteString(fmt.Sprintf("Engine: %s\n", v.Engine))
-		}
-		if v.Transmission != "" {
-			summary.WriteString(fmt.Sprintf("Transmission: %s\n", v.Transmission))
-		}
-		if v.DriveType != "" {
-			summary.WriteString(fmt.Sprintf("Drive Type: %s\n", v.DriveType))
-		}
-	}
-
-	// Notes
-	if v.Notes != "" {
-		summary.WriteString(fmt.Sprintf("\nNotes: %s\n", v.Notes))
-	}
-
-	// Metadata
-	summary.WriteString(fmt.Sprintf("\nAdded: %s", v.CreatedDate.Format("January 2, 2006")))
-
-	return formatRichResult(summary.String(), v)
 }

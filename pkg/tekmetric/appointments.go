@@ -4,7 +4,41 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 )
+
+// ============================================================================
+// Models
+// ============================================================================
+
+// Appointment represents an appointment
+type Appointment struct {
+	ID               int        `json:"id"`
+	ShopID           int        `json:"shopId"`
+	CustomerID       int        `json:"customerId"`
+	VehicleID        int        `json:"vehicleId"`
+	ServiceWriterID  *int       `json:"serviceWriterId"`
+	TechnicianID     *int       `json:"technicianId"`
+	StartTime        time.Time  `json:"startTime"`
+	EndTime          time.Time  `json:"endTime"`
+	Status           string     `json:"status"`
+	CustomerConcerns string     `json:"customerConcerns,omitempty"`
+	Notes            string     `json:"notes,omitempty"`
+	CreatedDate      time.Time  `json:"createdDate"`
+	UpdatedDate      time.Time  `json:"updatedDate"`
+	DeletedDate      *time.Time `json:"deletedDate"`
+}
+
+// EnrichedAppointment represents an appointment with customer and vehicle details
+type EnrichedAppointment struct {
+	Appointment
+	Customer *Customer `json:"customer,omitempty"`
+	Vehicle  *Vehicle  `json:"vehicle,omitempty"`
+}
+
+// ============================================================================
+// API Methods
+// ============================================================================
 
 // AppointmentQueryParams holds query parameters for appointment searches
 type AppointmentQueryParams struct {

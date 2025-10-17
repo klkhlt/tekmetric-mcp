@@ -4,7 +4,45 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 )
+
+// ============================================================================
+// Models
+// ============================================================================
+
+// InventoryPart represents an inventory part
+type InventoryPart struct {
+	ID          int        `json:"id"`
+	ShopID      int        `json:"shopId"`
+	PartNumber  string     `json:"partNumber"`
+	Description string     `json:"description"`
+	Brand       string     `json:"brand,omitempty"`
+	Cost        Currency   `json:"cost"`
+	Retail      Currency   `json:"retail"`
+	Quantity    float64    `json:"quantity"`
+	Location    string     `json:"location,omitempty"`
+	CreatedDate time.Time  `json:"createdDate"`
+	UpdatedDate time.Time  `json:"updatedDate"`
+	DeletedDate *time.Time `json:"deletedDate"`
+}
+
+// CannedJob represents a predefined job template
+type CannedJob struct {
+	ID           int       `json:"id"`
+	ShopID       int       `json:"shopId"`
+	Name         string    `json:"name"`
+	Description  string    `json:"description,omitempty"`
+	CategoryName string    `json:"categoryName,omitempty"`
+	LaborRate    int       `json:"laborRate"`
+	LaborHours   float64   `json:"laborHours"`
+	CreatedDate  time.Time `json:"createdDate"`
+	UpdatedDate  time.Time `json:"updatedDate"`
+}
+
+// ============================================================================
+// API Methods
+// ============================================================================
 
 // InventoryQueryParams holds query parameters for inventory searches
 type InventoryQueryParams struct {

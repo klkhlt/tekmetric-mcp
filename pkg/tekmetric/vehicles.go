@@ -4,7 +4,40 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 )
+
+// ============================================================================
+// Models
+// ============================================================================
+
+// Vehicle represents a vehicle
+type Vehicle struct {
+	ID             int        `json:"id"`
+	CustomerID     int        `json:"customerId"`
+	ShopID         int        `json:"shopId"`
+	Year           int        `json:"year"`
+	Make           string     `json:"make"`
+	Model          string     `json:"model"`
+	SubModel       string     `json:"subModel,omitempty"`
+	VIN            string     `json:"vin"`
+	LicensePlate   string     `json:"licensePlate,omitempty"`
+	Color          string     `json:"color,omitempty"`
+	UnitNumber     string     `json:"unitNumber,omitempty"`
+	ProductionDate *string    `json:"productionDate,omitempty"`
+	Mileage        float64    `json:"mileage"`
+	Engine         string     `json:"engine,omitempty"`
+	Transmission   string     `json:"transmission,omitempty"`
+	DriveType      string     `json:"driveType,omitempty"`
+	Notes          string     `json:"notes,omitempty"`
+	CreatedDate    time.Time  `json:"createdDate"`
+	UpdatedDate    time.Time  `json:"updatedDate"`
+	DeletedDate    *time.Time `json:"deletedDate"`
+}
+
+// ============================================================================
+// API Methods
+// ============================================================================
 
 // VehicleQueryParams holds query parameters for vehicle searches
 type VehicleQueryParams struct {

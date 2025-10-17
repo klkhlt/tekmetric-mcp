@@ -4,7 +4,39 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 )
+
+// ============================================================================
+// Models
+// ============================================================================
+
+// EmployeeRole represents an employee's role
+type EmployeeRole struct {
+	ID   int    `json:"id"`
+	Code string `json:"code"`
+	Name string `json:"name"`
+}
+
+// Employee represents an employee
+type Employee struct {
+	ID                  int           `json:"id"`
+	FirstName           string        `json:"firstName"`
+	LastName            string        `json:"lastName"`
+	Email               string        `json:"email"`
+	Phone               string        `json:"phone,omitempty"`
+	EmployeeRole        *EmployeeRole `json:"employeeRole,omitempty"`
+	CanPerformWork      bool          `json:"canPerformWork"`
+	CertificationNumber string        `json:"certificationNumber,omitempty"`
+	ShopID              int           `json:"shopId"`
+	CreatedDate         time.Time     `json:"createdDate"`
+	UpdatedDate         time.Time     `json:"updatedDate"`
+	DeletedDate         *time.Time    `json:"deletedDate"`
+}
+
+// ============================================================================
+// API Methods
+// ============================================================================
 
 // EmployeeQueryParams holds query parameters for employee searches
 type EmployeeQueryParams struct {
