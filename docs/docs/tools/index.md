@@ -130,6 +130,25 @@ Check parts inventory and stock levels.
 
 ---
 
+### 📊 [Analysis Tools](./analysis.md)
+
+Get comprehensive timelines and insights with intelligent formatting.
+
+**Quick examples:**
+- "Analyze service history for vehicle 12345"
+- "Show me complete maintenance timeline for vehicle 67890"
+- "Get service history for customer John's Honda"
+
+**What's Different:**
+- Fetches ALL historical data (automatic pagination)
+- Returns formatted timelines with intelligent categorization
+- Shows patterns, spending, maintenance adherence
+- Perfect for: customer conversations, identifying recurring issues
+
+👉 [Learn more about analysis tools](./analysis.md)
+
+---
+
 ## How to Ask Questions
 
 ### Be Natural
@@ -180,7 +199,7 @@ Who's scheduled to work today?
 ```
 Find customer John Smith
 What vehicles does John own?
-Show me John's repair history
+Analyze service history for John's 2020 Honda
 Does John have any open repair orders?
 ```
 
