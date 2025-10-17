@@ -186,9 +186,9 @@ func (c *Client) doRequest(ctx context.Context, method, path string, body interf
 			req.Header.Set("Content-Type", "application/json")
 		}
 
-		// Log full request details for debugging
+		// Log request details for debugging
 		fullURL := c.baseURL + path
-		c.logger.Info("API request",
+		c.logger.Debug("API request",
 			"method", method,
 			"url", fullURL,
 			"has_body", body != nil)
@@ -232,8 +232,8 @@ func (c *Client) doRequest(ctx context.Context, method, path string, body interf
 			return fmt.Errorf("API request failed with status %d", resp.StatusCode)
 		}
 
-		// Log successful response
-		c.logger.Info("API response",
+		// Log successful response at debug level
+		c.logger.Debug("API response",
 			"status", resp.StatusCode,
 			"content_length", len(responseBody))
 

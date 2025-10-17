@@ -20,7 +20,7 @@ var (
 
 type CLI struct {
 	// Global flags
-	Debug   bool       `help:"Enable debug logging" short:"d"`
+	Debug   bool       `help:"Enable debug logging" short:"d" env:"TEKMETRIC_DEBUG"`
 	Version VersionCmd `cmd:"" help:"Show version information"`
 
 	// Commands
