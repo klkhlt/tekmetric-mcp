@@ -27,7 +27,10 @@ builds:
 
 archives:
   - id: default
-    format: "{{ if eq .Os \"windows\" }}zip{{ else }}tar.gz{{ end }}"
+    formats: ["tar.gz"]
+    format_overrides:
+      - goos: windows
+        formats: ["zip"]
     name_template: >-
       {{ .ProjectName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}
     files:
