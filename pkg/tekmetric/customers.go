@@ -7,6 +7,7 @@ import (
 )
 
 // CustomerQueryParams holds query parameters for customer searches
+// Note: By default, deleted records are excluded unless DeletedDateStart/DeletedDateEnd are explicitly set
 type CustomerQueryParams struct {
 	Shop                          int    `url:"shop,omitempty"`
 	Page                          int    `url:"page,omitempty"`
@@ -16,8 +17,6 @@ type CustomerQueryParams struct {
 	OkForMarketing                *bool  `url:"okForMarketing,omitempty"`                // Filter by marketing permission
 	UpdatedDateStart              string `url:"updatedDateStart,omitempty"`              // Filter by updated date
 	UpdatedDateEnd                string `url:"updatedDateEnd,omitempty"`                // Filter by updated date
-	DeletedDateStart              string `url:"deletedDateStart,omitempty"`              // Filter by deleted date
-	DeletedDateEnd                string `url:"deletedDateEnd,omitempty"`                // Filter by deleted date
 	CustomerTypeID                int    `url:"customerTypeId,omitempty"`                // 1=Customer, 2=Business
 	Sort                          string `url:"sort,omitempty"`                          // lastName, firstName, email (can be comma-separated)
 	SortDirection                 string `url:"sortDirection,omitempty"`                 // ASC, DESC
@@ -94,12 +93,7 @@ func (c *Client) GetCustomersWithParams(ctx context.Context, params CustomerQuer
 	if params.UpdatedDateEnd != "" {
 		query.Add("updatedDateEnd", params.UpdatedDateEnd)
 	}
-	if params.DeletedDateStart != "" {
-		query.Add("deletedDateStart", params.DeletedDateStart)
-	}
-	if params.DeletedDateEnd != "" {
-		query.Add("deletedDateEnd", params.DeletedDateEnd)
-	}
+	// Deleted date filters removed - we never query for deleted records
 	if params.CustomerTypeID > 0 {
 		query.Add("customerTypeId", fmt.Sprintf("%d", params.CustomerTypeID))
 	}

@@ -17,17 +17,18 @@ type AppointmentQueryParams struct {
 	End              string `url:"end,omitempty"`              // End date filter
 	UpdatedDateStart string `url:"updatedDateStart,omitempty"` // Filter by updated date
 	UpdatedDateEnd   string `url:"updatedDateEnd,omitempty"`   // Filter by updated date
-	IncludeDeleted   *bool  `url:"includeDeleted,omitempty"`   // Include deleted appointments (default: true)
+	IncludeDeleted   *bool  `url:"includeDeleted,omitempty"`   // Include deleted appointments (default: false)
 	Sort             string `url:"sort,omitempty"`             // Sort field (API docs don't specify allowed values)
 	SortDirection    string `url:"sortDirection,omitempty"`    // ASC, DESC
 }
 
-// GetAppointments returns a paginated list of appointments
+// GetAppointments returns a paginated list of appointments (excludes deleted by default)
 func (c *Client) GetAppointments(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[Appointment], error) {
 	if err := c.isAuthorizedShop(shopID); err != nil {
 		return nil, err
 	}
-	path := fmt.Sprintf("/api/v1/appointments?shop=%d&page=%d&size=%d", shopID, page, size)
+	includeDeleted := false
+	path := fmt.Sprintf("/api/v1/appointments?shop=%d&page=%d&size=%d&includeDeleted=%t", shopID, page, size, includeDeleted)
 	var resp PaginatedResponse[Appointment]
 	if err := c.doRequest(ctx, "GET", path, nil, &resp); err != nil {
 		return nil, err
@@ -81,8 +82,11 @@ func (c *Client) GetAppointmentsWithParams(ctx context.Context, params Appointme
 	if params.UpdatedDateEnd != "" {
 		query.Add("updatedDateEnd", params.UpdatedDateEnd)
 	}
+	// Default to excluding deleted appointments
 	if params.IncludeDeleted != nil {
 		query.Add("includeDeleted", fmt.Sprintf("%t", *params.IncludeDeleted))
+	} else {
+		query.Add("includeDeleted", "false")
 	}
 	if params.Sort != "" {
 		query.Add("sort", params.Sort)

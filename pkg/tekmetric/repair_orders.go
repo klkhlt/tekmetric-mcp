@@ -17,8 +17,6 @@ type RepairOrderQueryParams struct {
 	PostedDateEnd        string `url:"postedDateEnd,omitempty"`    // Date format: YYYY-MM-DD
 	UpdatedDateStart     string `url:"updatedDateStart,omitempty"` // Date format: YYYY-MM-DD
 	UpdatedDateEnd       string `url:"updatedDateEnd,omitempty"`   // Date format: YYYY-MM-DD
-	DeletedDateStart     string `url:"deletedDateStart,omitempty"` // Date format: YYYY-MM-DD
-	DeletedDateEnd       string `url:"deletedDateEnd,omitempty"`   // Date format: YYYY-MM-DD
 	RepairOrderNumber    int    `url:"repairOrderNumber,omitempty"`
 	RepairOrderStatusIds []int  `url:"repairOrderStatusId,omitempty"` // 1-Estimate, 2-WIP, 3-Complete, 4-Saved, 5-Posted, 6-AR, 7-Deleted
 	CustomerID           int    `url:"customerId,omitempty"`
@@ -28,12 +26,13 @@ type RepairOrderQueryParams struct {
 	SortDirection        string `url:"sortDirection,omitempty"` // ASC, DESC
 }
 
-// GetRepairOrders returns a paginated list of repair orders
+// GetRepairOrders returns a paginated list of repair orders (excludes deleted status 7 by default)
 func (c *Client) GetRepairOrders(ctx context.Context, shopID int, page int, size int) (*PaginatedResponse[RepairOrder], error) {
 	params := RepairOrderQueryParams{
-		Shop: shopID,
-		Page: page,
-		Size: size,
+		Shop:                 shopID,
+		Page:                 page,
+		Size:                 size,
+		RepairOrderStatusIds: []int{1, 2, 3, 4, 5, 6}, // Exclude status 7 (Deleted)
 	}
 	return c.GetRepairOrdersWithParams(ctx, params)
 }
@@ -74,12 +73,6 @@ func (c *Client) GetRepairOrdersWithParams(ctx context.Context, params RepairOrd
 	}
 	if params.UpdatedDateEnd != "" {
 		query.Add("updatedDateEnd", params.UpdatedDateEnd)
-	}
-	if params.DeletedDateStart != "" {
-		query.Add("deletedDateStart", params.DeletedDateStart)
-	}
-	if params.DeletedDateEnd != "" {
-		query.Add("deletedDateEnd", params.DeletedDateEnd)
 	}
 	if params.RepairOrderNumber > 0 {
 		query.Add("repairOrderNumber", fmt.Sprintf("%d", params.RepairOrderNumber))
