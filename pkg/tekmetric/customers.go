@@ -12,8 +12,6 @@ type CustomerQueryParams struct {
 	Page                          int    `url:"page,omitempty"`
 	Size                          int    `url:"size,omitempty"`
 	Search                        string `url:"search,omitempty"`                        // Search by name, email, phone
-	Email                         string `url:"email,omitempty"`                         // Filter by email
-	Phone                         string `url:"phone,omitempty"`                         // Filter by phone
 	EligibleForAccountsReceivable *bool  `url:"eligibleForAccountsReceivable,omitempty"` // Filter by AR eligibility
 	OkForMarketing                *bool  `url:"okForMarketing,omitempty"`                // Filter by marketing permission
 	UpdatedDateStart              string `url:"updatedDateStart,omitempty"`              // Filter by updated date
@@ -83,12 +81,6 @@ func (c *Client) GetCustomersWithParams(ctx context.Context, params CustomerQuer
 	}
 	if params.Search != "" {
 		query.Add("search", params.Search)
-	}
-	if params.Email != "" {
-		query.Add("email", params.Email)
-	}
-	if params.Phone != "" {
-		query.Add("phone", params.Phone)
 	}
 	if params.EligibleForAccountsReceivable != nil {
 		query.Add("eligibleForAccountsReceivable", fmt.Sprintf("%t", *params.EligibleForAccountsReceivable))

@@ -14,18 +14,36 @@ import (
 func (r *Registry) RegisterVehicleTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("vehicles",
-			mcp.WithDescription("Search for vehicles by VIN, license plate, make/model, or get vehicle by ID. Returns vehicle details including make, model, year, and service history."),
+			mcp.WithDescription("Search for vehicles by VIN, license plate, make/model, or get vehicle by ID. Supports filtering by customer and date ranges."),
 			mcp.WithNumber("id",
 				mcp.Description("Get specific vehicle by ID"),
 			),
-			mcp.WithString("query",
-				mcp.Description("Search vehicles by VIN, license plate, or make/model"),
+			mcp.WithString("search",
+				mcp.Description("Search vehicles by VIN, license plate, year, make, or model"),
 			),
 			mcp.WithNumber("shop",
 				mcp.Description("Shop ID (defaults to configured shop)"),
 			),
+			mcp.WithNumber("customer_id",
+				mcp.Description("Filter vehicles by customer ID"),
+			),
+			mcp.WithString("updated_date_start",
+				mcp.Description("Filter by updated date start (YYYY-MM-DD)"),
+			),
+			mcp.WithString("updated_date_end",
+				mcp.Description("Filter by updated date end (YYYY-MM-DD)"),
+			),
+			mcp.WithString("sort",
+				mcp.Description("Sort field (e.g., year, make, model)"),
+			),
+			mcp.WithString("sort_direction",
+				mcp.Description("Sort direction: ASC or DESC"),
+			),
 			mcp.WithNumber("limit",
-				mcp.Description("Maximum results to return for search (default 10)"),
+				mcp.Description("Maximum results to return (max: 100, default: 10)"),
+			),
+			mcp.WithNumber("page",
+				mcp.Description("Page number for pagination (default: 0)"),
 			),
 		),
 		r.handleVehicles,
@@ -47,43 +65,57 @@ func (r *Registry) handleVehicles(arguments map[string]interface{}) (*mcp.CallTo
 		return formatJSON(vehicle)
 	}
 
-	// Get shop ID
-	shopID := r.config.Tekmetric.DefaultShopID
+	// Build query params
+	params := tekmetric.VehicleQueryParams{
+		Shop: r.config.Tekmetric.DefaultShopID,
+		Page: 0,
+		Size: 10,
+	}
+
+	// Parse optional parameters
 	if shop, ok := parseFloatArg(arguments, "shop"); ok {
-		shopID = shop
+		params.Shop = shop
+	}
+	if search, ok := parseStringArg(arguments, "search"); ok {
+		params.Search = search
+	}
+	if customerID, ok := parseFloatArg(arguments, "customer_id"); ok {
+		params.CustomerID = customerID
+	}
+	if updatedStart, ok := parseStringArg(arguments, "updated_date_start"); ok {
+		params.UpdatedDateStart = updatedStart
+	}
+	if updatedEnd, ok := parseStringArg(arguments, "updated_date_end"); ok {
+		params.UpdatedDateEnd = updatedEnd
+	}
+	if sort, ok := parseStringArg(arguments, "sort"); ok {
+		params.Sort = sort
+	}
+	if sortDirection, ok := parseStringArg(arguments, "sort_direction"); ok {
+		params.SortDirection = sortDirection
+	}
+	if limit, ok := parseFloatArg(arguments, "limit"); ok {
+		params.Size = limit
+		if params.Size > 100 {
+			params.Size = 100
+		}
+	}
+	if page, ok := parseFloatArg(arguments, "page"); ok {
+		params.Page = page
 	}
 
-	// If query is provided, search vehicles
-	if query, ok := parseStringArg(arguments, "query"); ok {
-		limit := 10
-		if lim, ok := parseFloatArg(arguments, "limit"); ok {
-			limit = lim
-		}
-
-		// Use API's native search instead of client-side filtering
-		vehicles, err := r.client.SearchVehicles(ctx, shopID, query, 0, limit)
-		if err != nil {
-			return mcp.NewToolResultError(fmt.Sprintf("Failed to search vehicles: %v", err)), nil
-		}
-
-		response := map[string]interface{}{
-			"query":         query,
-			"returned":      len(vehicles.Content),
-			"totalElements": vehicles.TotalElements,
-			"results":       vehicles.Content,
-		}
-
-		// Warn if there are more results available
-		if vehicles.TotalElements > limit {
-			response["WARNING"] = fmt.Sprintf("⚠️ SHOWING %d OF %d MATCHING VEHICLES ⚠️", len(vehicles.Content), vehicles.TotalElements)
-			response["message"] = "Use a more specific search query or increase the 'limit' parameter."
-		}
-
-		return formatJSON(response)
+	resp, err := r.client.GetVehiclesWithParams(ctx, params)
+	if err != nil {
+		return mcp.NewToolResultError(fmt.Sprintf("Failed to search vehicles: %v", err)), nil
 	}
 
-	// No ID or query - return error suggesting what to provide
-	return mcp.NewToolResultError("Please provide either 'id' to get a specific vehicle or 'query' to search vehicles"), nil
+	return formatPaginatedResultWithWarning(
+		resp.Content,
+		resp.TotalElements,
+		len(resp.Content),
+		25,
+		"VEHICLES",
+	)
 }
 
 // formatVehicleSummary creates a formatted summary of a vehicle

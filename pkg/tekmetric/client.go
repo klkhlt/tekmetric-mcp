@@ -186,7 +186,12 @@ func (c *Client) doRequest(ctx context.Context, method, path string, body interf
 			req.Header.Set("Content-Type", "application/json")
 		}
 
-		c.logger.Debug("making API request", "method", method, "path", path)
+		// Log full request details for debugging
+		fullURL := c.baseURL + path
+		c.logger.Info("API request",
+			"method", method,
+			"url", fullURL,
+			"has_body", body != nil)
 
 		resp, err := c.httpClient.Do(req)
 		if err != nil {
@@ -210,11 +215,11 @@ func (c *Client) doRequest(ctx context.Context, method, path string, body interf
 		// Check for non-success status codes
 		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 			// Log detailed error information
-			c.logger.Debug("API request failed",
+			c.logger.Error("API request failed",
 				"method", method,
-				"path", path,
+				"url", fullURL,
 				"status", resp.StatusCode,
-				"body", string(responseBody))
+				"response_body", string(responseBody))
 
 			// Rate limit (429) and server errors (5xx) are temporary - should retry
 			if resp.StatusCode == http.StatusTooManyRequests || resp.StatusCode >= 500 {
@@ -226,6 +231,11 @@ func (c *Client) doRequest(ctx context.Context, method, path string, body interf
 			// Client errors (4xx except 429) are permanent - don't retry
 			return fmt.Errorf("API request failed with status %d", resp.StatusCode)
 		}
+
+		// Log successful response
+		c.logger.Info("API response",
+			"status", resp.StatusCode,
+			"content_length", len(responseBody))
 
 		if result != nil {
 			if err := json.Unmarshal(responseBody, result); err != nil {

@@ -56,6 +56,14 @@ func parseStringArg(arguments map[string]interface{}, key string) (string, bool)
 	return "", false
 }
 
+// parseBoolArg safely extracts a boolean argument
+func parseBoolArg(arguments map[string]interface{}, key string) (bool, bool) {
+	if val, ok := arguments[key].(bool); ok {
+		return val, true
+	}
+	return false, false
+}
+
 // removeNullsAndEmpty recursively removes null, empty strings, empty slices, and zero values from maps
 func removeNullsAndEmpty(data interface{}) interface{} {
 	switch v := data.(type) {
