@@ -41,7 +41,7 @@ The configuration format follows the MCP standard. Add this to your client's MCP
       "env": {
         "TEKMETRIC_CLIENT_ID": "your_client_id",
         "TEKMETRIC_CLIENT_SECRET": "your_client_secret",
-        "TEKMETRIC_BASE_URL": "https://api.tekmetric.com",
+        "TEKMETRIC_BASE_URL": "https://shop.tekmetric.com",
         "TEKMETRIC_DEFAULT_SHOP_ID": "123"
       }
     }
@@ -67,7 +67,7 @@ The configuration format follows the MCP standard. Add this to your client's MCP
   "env": {
     "TEKMETRIC_CLIENT_ID": "...",
     "TEKMETRIC_CLIENT_SECRET": "...",
-    "TEKMETRIC_BASE_URL": "https://api.tekmetric.com",
+    "TEKMETRIC_BASE_URL": "https://shop.tekmetric.com",
     "TEKMETRIC_DEFAULT_SHOP_ID": "123",
     "TEKMETRIC_DEBUG": "false",
     "TEKMETRIC_TIMEOUT_SECONDS": "30",
@@ -94,7 +94,7 @@ Before configuring your MCP client, test the server directly:
 # Set environment variables
 export TEKMETRIC_CLIENT_ID="your_id"
 export TEKMETRIC_CLIENT_SECRET="your_secret"
-export TEKMETRIC_BASE_URL="https://api.tekmetric.com"
+export TEKMETRIC_BASE_URL="https://shop.tekmetric.com"
 
 # Run the server
 /path/to/tekmetric-mcp serve
@@ -152,7 +152,7 @@ Look for errors in the output.
 
 **Verify credentials:**
 ```bash
-curl -X POST https://api.tekmetric.com/api/v1/oauth/token \
+curl -X POST https://shop.tekmetric.com/api/v1/oauth/token \
   -u "CLIENT_ID:CLIENT_SECRET" \
   -d "grant_type=client_credentials"
 ```
@@ -205,7 +205,7 @@ Instead of JSON config, you can use a `.env` file:
 # .env
 TEKMETRIC_CLIENT_ID=your_client_id
 TEKMETRIC_CLIENT_SECRET=your_client_secret
-TEKMETRIC_BASE_URL=https://api.tekmetric.com
+TEKMETRIC_BASE_URL=https://shop.tekmetric.com
 TEKMETRIC_DEFAULT_SHOP_ID=123
 ```
 
@@ -228,7 +228,7 @@ Create `~/.config/tekmetric-mcp/config.json`:
 ```json
 {
   "tekmetric": {
-    "base_url": "https://api.tekmetric.com",
+    "base_url": "https://shop.tekmetric.com",
     "client_id": "your_id",
     "client_secret": "your_secret",
     "default_shop_id": 123,
@@ -283,4 +283,4 @@ Or via command line:
 
 - [GitHub Issues](https://github.com/beetlebugorg/tekmetric-mcp/issues)
 - [MCP Protocol Docs](https://modelcontextprotocol.io)
-- [Tekmetric API](https://api.tekmetric.com)
+- [Tekmetric API](https://shop.tekmetric.com)

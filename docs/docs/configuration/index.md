@@ -15,7 +15,7 @@ Set environment variables in your shell or Claude Desktop config:
 ```bash
 export TEKMETRIC_CLIENT_ID="your_client_id"
 export TEKMETRIC_CLIENT_SECRET="your_client_secret"
-export TEKMETRIC_BASE_URL="https://api.tekmetric.com"
+export TEKMETRIC_BASE_URL="https://shop.tekmetric.com"
 export TEKMETRIC_DEFAULT_SHOP_ID="123"
 export TEKMETRIC_DEBUG="false"
 ```
@@ -27,7 +27,7 @@ Create `~/.config/tekmetric-mcp/config.json`:
 ```json
 {
   "tekmetric": {
-    "base_url": "https://api.tekmetric.com",
+    "base_url": "https://shop.tekmetric.com",
     "client_id": "your_client_id",
     "client_secret": "your_client_secret",
     "default_shop_id": 123,
@@ -51,7 +51,7 @@ Override configuration via command line:
 tekmetric-mcp serve \
   --client-id=your_id \
   --client-secret=your_secret \
-  --base-url=https://api.tekmetric.com \
+  --base-url=https://shop.tekmetric.com \
   --shop-id=123
 ```
 
@@ -94,7 +94,7 @@ Tekmetric API base URL.
 - **Default**: `https://sandbox.tekmetric.com`
 - **Options**:
   - `https://sandbox.tekmetric.com` - Testing
-  - `https://api.tekmetric.com` - Production
+  - `https://shop.tekmetric.com` - Production
 
 #### `TEKMETRIC_DEFAULT_SHOP_ID`
 
@@ -158,7 +158,7 @@ Add to `claude_desktop_config.json`:
       "env": {
         "TEKMETRIC_CLIENT_ID": "your_client_id",
         "TEKMETRIC_CLIENT_SECRET": "your_client_secret",
-        "TEKMETRIC_BASE_URL": "https://api.tekmetric.com",
+        "TEKMETRIC_BASE_URL": "https://shop.tekmetric.com",
         "TEKMETRIC_DEFAULT_SHOP_ID": "123"
       }
     }
@@ -185,7 +185,7 @@ TEKMETRIC_MAX_RETRIES=1
 ### Production
 
 ```bash
-TEKMETRIC_BASE_URL=https://api.tekmetric.com
+TEKMETRIC_BASE_URL=https://shop.tekmetric.com
 TEKMETRIC_DEFAULT_SHOP_ID=123
 TEKMETRIC_DEBUG=false
 TEKMETRIC_MAX_RETRIES=3

@@ -54,7 +54,7 @@ Add this configuration to your settings file:
       "env": {
         "TEKMETRIC_CLIENT_ID": "your_client_id_here",
         "TEKMETRIC_CLIENT_SECRET": "your_client_secret_here",
-        "TEKMETRIC_BASE_URL": "https://api.tekmetric.com",
+        "TEKMETRIC_BASE_URL": "https://shop.tekmetric.com",
         "TEKMETRIC_DEFAULT_SHOP_ID": "123"
       }
     }
@@ -76,7 +76,7 @@ Add this configuration to your settings file:
 3. **Line 8**: Paste your Client Secret from Tekmetric
 
 4. **Line 9**: Set your base URL
-   - Production: `https://api.tekmetric.com`
+   - Production: `https://shop.tekmetric.com`
    - Testing: `https://sandbox.tekmetric.com`
 
 5. **Line 10**: Put your shop ID number (or `2`/`3` for sandbox)
@@ -117,7 +117,7 @@ If you see your shop information, **you're all set!** 🎉
       "env": {
         "TEKMETRIC_CLIENT_ID": "abc123def456",
         "TEKMETRIC_CLIENT_SECRET": "secretxyz789",
-        "TEKMETRIC_BASE_URL": "https://api.tekmetric.com",
+        "TEKMETRIC_BASE_URL": "https://shop.tekmetric.com",
         "TEKMETRIC_DEFAULT_SHOP_ID": "123",
         "TEKMETRIC_DEBUG": "false"
       }

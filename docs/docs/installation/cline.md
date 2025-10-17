@@ -54,7 +54,7 @@ Add this to your Cline MCP settings:
       "env": {
         "TEKMETRIC_CLIENT_ID": "your_client_id_here",
         "TEKMETRIC_CLIENT_SECRET": "your_client_secret_here",
-        "TEKMETRIC_BASE_URL": "https://api.tekmetric.com",
+        "TEKMETRIC_BASE_URL": "https://shop.tekmetric.com",
         "TEKMETRIC_DEFAULT_SHOP_ID": "123"
       }
     }
@@ -76,7 +76,7 @@ Add this to your Cline MCP settings:
 3. **Line 8**: Your Tekmetric Client Secret
 
 4. **Line 9**: Base URL
-   - Production: `https://api.tekmetric.com`
+   - Production: `https://shop.tekmetric.com`
    - Testing: `https://sandbox.tekmetric.com`
 
 5. **Line 10**: Your shop ID (or `2`/`3` for sandbox)
@@ -110,7 +110,7 @@ If Cline can access your shop data, **you're all set!** 🎉
       "env": {
         "TEKMETRIC_CLIENT_ID": "abc123",
         "TEKMETRIC_CLIENT_SECRET": "secret789",
-        "TEKMETRIC_BASE_URL": "https://api.tekmetric.com",
+        "TEKMETRIC_BASE_URL": "https://shop.tekmetric.com",
         "TEKMETRIC_DEFAULT_SHOP_ID": "123",
         "TEKMETRIC_DEBUG": "false",
         "TEKMETRIC_TIMEOUT_SECONDS": "30",

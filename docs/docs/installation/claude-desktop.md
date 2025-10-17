@@ -41,7 +41,7 @@ Claude Desktop will ask you for these values:
 - ⚠️ Keep this secret!
 
 **TEKMETRIC_BASE_URL**
-- For production (real data): `https://api.tekmetric.com`
+- For production (real data): `https://shop.tekmetric.com`
 - For testing (sandbox): `https://sandbox.tekmetric.com`
 
 **TEKMETRIC_DEFAULT_SHOP_ID**

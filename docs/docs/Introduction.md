@@ -152,7 +152,7 @@ This is an AI-first project! We welcome contributions in the form of clear requi
 
 - **Questions?** Check the [Tools Documentation](./tools/index.md) and [Examples](./examples/index.md)
 - **Issues**: [GitHub Issues](https://github.com/beetlebugorg/tekmetric-mcp/issues)
-- **Tekmetric API**: [api.tekmetric.com](https://api.tekmetric.com)
+- **Tekmetric API**: [shop.tekmetric.com](https://shop.tekmetric.com)
 - **MCP Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io)
 
 ## License
