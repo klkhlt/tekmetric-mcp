@@ -97,7 +97,7 @@ Get a complete timeline with:
 
 **Important:** API access must be requested from Tekmetric.
 
-1. Visit [shop.tekmetric.com](https://shop.tekmetric.com) to request API access
+1. Visit [api.tekmetric.com](https://api.tekmetric.com) to request API access
 2. Wait 2-3 weeks for approval
 3. Receive your Client ID and Client Secret from Tekmetric
 4. Save them securely
