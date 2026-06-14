@@ -1,5 +1,7 @@
 # 🛠️ tekmetric-mcp - Get Insights from Your Tekmetric Data
 
+[![SafeSkill 83/100](https://img.shields.io/badge/SafeSkill-83%2F100_Passes%20with%20Notes-yellow)](https://safeskill.dev/scan/klkhlt-tekmetric-mcp)
+
 Welcome to tekmetric-mcp! This application allows you to ask questions about your Tekmetric shop data using natural language. Get instant answers about customers, vehicles, repair orders, appointments, and more - directly in Claude.
 
 ## 📥 Download Now
